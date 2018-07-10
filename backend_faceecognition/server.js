@@ -21,7 +21,9 @@ app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json());
 
 
-app.get('/',(req,res)=>res.json(database.users))
+app.get('/',(req,res)=>{res.json("It is working")
+
+})
 
 
 app.post('/signin',(req,res)=>{
@@ -61,4 +63,4 @@ app.get('/profile/:id',(req,res)=>{
 	.catch(err=>res.status(400).json("users does not exist"));
 })
 
-app.listen(3000);
+app.listen(process.env.PORT||3000);
