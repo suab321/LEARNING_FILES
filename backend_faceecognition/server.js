@@ -2,6 +2,22 @@ const express=require('express');
 const app=express();
 const bodyparser=require('body-parser');
 const cors=require('cors');
+const bcrypt=require('bcrypt');
+const knex=require('knex');
+const db=knex({
+	client:'pg',
+	connection:{
+		host:'127.0.0.1',
+		user:'postgres',
+		password:'9051',
+		database:'facerecog_db'
+
+	}
+
+});
+
+db.select('*').from('users').then(response=>{
+});
 
 const database={
 	users:[
@@ -36,44 +52,39 @@ app.get('/',(req,res)=>res.json(database.users))
 
 app.post('/signin',(req,res)=>{
 	const{email,password}=req.body;
-	if(email===database.users[0].email && password===database.users[0].password)
-			res.status(200).json(database.users[0]);
+	db.select('*').from('users').where({email,password}).then(response=>{
+		if(response.length===0)
+			res.status(400).json("not registered");
+		else
+			res.status(200).json(response[0]);
+		}).catch(err=>res.status(500).json("cant"))
 
-	else
-		res.status(400).json("error logging in");
-		})
+})
+
 
 
 app.post('/register',(req,res)=>{
 	const {name,email,password}=req.body;
-	database.users.push({
-			id:"3",
-			name:name,
-			email:email,
-			password:password,
-			entries:0,
-			joined_date:new Date()
+	db('users').returning('*').insert({
+		name:name,
+		email:email,
+		password:password,
+		joined:new Date()
+	}).then(response=>res.json(response[0]))
+	.catch(err=>res.status(400).json("unable to register"));
+		
 	})
-	res.json(database.users[database.users.length-1]);
-})
+	
 
 app.put('/image',(req,res)=>{
-	let {entries}=req.body;
-	entries++;
-	res.json(entries);
+	let {id}=req.body;
+	db('users').where('id', '=', id).increment('entries', 1).returning('entries').then(users=>res.json(users[0]))
 })
 
 app.get('/profile/:id',(req,res)=>{
 	const{id}=req.params;
-	let dec=false;
-	database.users.forEach(object=>{
-		if(object.id==id){
-			dec=true;
-			 res.json(object);
-		}
-	})
-	if(!dec)
-		res.json("Not found");
+	db.select('*').from('users').where({id}).then(response=>res.status(200).json(response[0]))
+	.catch(err=>res.status(400).json("users does not exist"));
 })
 
 app.listen(3000);
