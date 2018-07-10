@@ -11,12 +11,13 @@ import Image from './component/image/Image';
 import 'tachyons';
 import Signin from './component/signin/Signin';
 import Register from './component/register/Register';
+import axios from 'axios'
 
 const app=new Clarifai.App({
-	apiKey:'c774a5a94200444d8cfc475deb116e43'
+	apiKey:'d9e65e14c6614d4e8ef63fec30e65671'
 });
 
-class App extends Component {
+export default class App extends Component {
 
   constructor(){
   	super()
@@ -24,10 +25,34 @@ class App extends Component {
   		url:'',
   		value:'',
   		box:{},
-  		route:"Signin"
+  		route:"Signin",
+      user:{
+        id:"",
+      name:"",
+      email:"",
+      password:"",
+      entries:0,
+      joined_data:""
+      }
   	};
-  	this.face_value=this.face_value.bind(this);
   }
+
+  onalertbuild=(text)=>{
+    if(text==='nr')
+      alert("Not");
+  }
+
+  onloadUser=(data)=>{
+    this.setState({user:{
+      id:data.id,
+      name:data.name,
+      email:data.email,
+      password:data.password,
+      entries:data.entries,
+      joined_data:data.joined_data
+    }
+  })
+}
 
   face_value=(response)=>{
   	const image=document.getElementById('image')
@@ -55,11 +80,28 @@ class App extends Component {
   		this.setState({value:event.target.value})
   	}
 
+  onSignOut=(value)=>{
+    this.setState({url:value})
+  }
+
+
   onButtonsubmit=()=>{
   	this.setState({url:this.state.value})
   	app.models.predict(Clarifai.FACE_DETECT_MODEL,this.state.url)
-    .then(response=>this.display(this.face_value(response.outputs[0].data.regions[0].region_info.bounding_box)))
+    .then(response=>{this.display(this.face_value(response.outputs[0].data.regions[0].region_info.bounding_box))})
     .catch(err=>console.log(err))
+      axios.put('http://localhost:3000/image',{id:this.state.user.id})
+      .then(response=>{
+        this.setState({user:{
+          id:this.state.user.id,
+          name:this.state.user.name,
+          email:this.state.user.email,
+          password:this.state.user.password,
+          entries:response.data,
+          joined_data:this.state.user.joined_data
+        }})
+      })
+    console.log(this.state.user.entries)
 }
     
   	
@@ -67,14 +109,14 @@ class App extends Component {
 
   render() {
     return (
-      <div className="">
+      <div>
      	<Particles className="particles" />
         {
         this.state.route==='home'
         ?<div>
-        <Navigation routechange={this.onroutechange}/>
+        <Navigation routechange={this.onroutechange} onsignout={this.onSignOut}/>
         <Logo/>
-        <Rank/>
+        <Rank name={this.state.user.name} entries={this.state.user.entries}/>
         <Imagelinkform
         onTextchange={this.onTextchange}
         onButtonsubmit={this.onButtonsubmit}
@@ -83,14 +125,12 @@ class App extends Component {
        </div>
    		:(
    			this.state.route==='Signin'
-   			?<Signin routechange={this.onroutechange}/>
-   			:<Register routechange={this.onroutechange}/>
+   			?<Signin routechange={this.onroutechange} loadUser={this.onloadUser} buildalert={this.onalertbuild}/>
+   			:<Register routechange={this.onroutechange} loadUser={this.onloadUser}/>
    		)
    		}
       </div>
     );
   }
 }
-
-export default App;
 

@@ -16,32 +16,6 @@ const db=knex({
 
 });
 
-db.select('*').from('users').then(response=>{
-});
-
-const database={
-	users:[
-		{
-			id:"1",
-			name:"abhinav",
-			email:"adityasaha890@gmail.com",
-			password:"9051571833",
-			entries:0,
-			joined_data:new Date()
-		},
-
-		{
-			id:"2",
-			name:"ravi",
-			email:"ravisaha890@gmail.com",
-			password:"8961351902",
-			entries:0,
-			joined_data:new Date()
-		}
-	]
-}
-
-
 app.use(cors());
 app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json());

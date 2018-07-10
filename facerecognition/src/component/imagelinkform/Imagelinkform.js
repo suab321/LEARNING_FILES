@@ -1,7 +1,7 @@
 import React from 'react';
 import './Image.css'
 
-const Imagelinkform=({onTextchange,onButtonsubmit})=>{
+const Imagelinkform=({onTextchange,onButtonsubmit,id})=>{
 
 	return(
 	<div>
