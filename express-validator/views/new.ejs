@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Form</title>
+</head>
+<body>
+	<form method="POST" action="/submit">
+		<label>Email</label>
+		<input type="email" name="Email">
+		<label>Password</label>
+		<input type="password" name="Password">
+		<label>Cnfirm Password</label>
+        <input type="password" name="CPassword">
+        <button>Submit</button>	
+        <h1><%=typeof msg!='undefined'?msg:''%></h1>
+	</form>
+	
+</body>
+</html>
