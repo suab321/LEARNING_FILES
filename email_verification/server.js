@@ -64,7 +64,7 @@ var mailoption={
 	to:email,
 	subject:'Using nodemailer',
 	text:'From nodemailer express Click the link below for verification',
-	html:'<p>Click for verification<a href="http://localhost:3000/verfify/'+email+'">For verification</a></p>'
+	html:'<p>Click for verification<a href="http://localhost:3000/verfify/:'+email+'">For verification</a></p>'
 };
 
 transporter.sendMail(mailoption).then((info)=>{
