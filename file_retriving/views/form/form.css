@@ -1,0 +1,16 @@
+
+.form{
+	margin-top: 5em;
+	margin-right: 10em;
+	margin-left: 50em;
+	text-align: center;
+	border: 2px solid black;
+	height: 25em;
+	width: 20em;
+	background-color: rgba(31,212,232,0.2);
+	padding:2em;
+}
+.img{
+	border-radius: 5em;
+	padding-bottom: 4em;
+}

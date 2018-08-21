@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="form/form.css">
+</head>
+<body>
+	<form action='/upload' method="POST" enctype="multipart/form-data" class='form'>
+		<h1><%=typeof msg!='undefined'?msg:""%></h1>
+		<img  class='img' src="<%=typeof src!='undefined'?src:'http://www.demotivation.us/media/demotivators/demotivation.us_WE-ARE-WAITING-STILL-WAITING_14150305823.jpg'%>" height='200px' width='200px'>
+		<input type="file" name="image"><br><br><br>
+		<input type="submit" name="submit">
+	</form>
+</body>
+</html>
