@@ -10,8 +10,10 @@ app.use(bodyparser.json())
 
 
 
-const User=new mongoose.Schema({user_name:String,user_friend:[String]})
+const User=new mongoose.Schema({user_name:String,user_friend:[{friend_name:String,chat:[String]}]})
 const user=mongoose.model('user_table',User)
+const Chat=new mongoose.Schema({name:String,chat:[String]})
+const chat=mongoose.model('chat_table',Chat)
 
 
 
@@ -28,13 +30,13 @@ app.post('/add_user',(req,res)=>{
 })
 app.post('/add_friends/:name',(req,res)=>{
 	const{name}=req.params
-	user.findOneAndUpdate({user_name:name},{$push:{'user_friend':req.body.friend}},(err,usr)=>{
+	user.findOneAndUpdate({user_name:name},{$addToSet:{'user_friend':{friend_name:req.body.friend}},$push:{'chat':req.body.chat}},(err,usr)=>{
 		if(err)
-			res.status(500).json("No user with that name")
+			res.status(500).json(err)
 		else
-		{
 			res.status(200).json(usr)
-		}
 	})
 })
+
+
 app.listen(3000)
