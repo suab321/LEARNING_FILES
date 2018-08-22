@@ -12,8 +12,7 @@ app.use(bodyparser.json())
 
 const User=new mongoose.Schema({user_name:String,user_friend:[{friend_name:String,chat:[String]}]})
 const user=mongoose.model('user_table',User)
-const Chat=new mongoose.Schema({name:String,chat:[String]})
-const chat=mongoose.model('chat_table',Chat)
+
 
 
 
