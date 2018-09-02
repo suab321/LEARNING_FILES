@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router,Link,NavLink} from 'react-router-dom';
 import Route from 'react-router-dom/Route';
+import { browserHistory } from 'react-router';
+import Login from './Login'
 
 const User=({match})=>{
   return(
@@ -11,6 +13,9 @@ const User=({match})=>{
 }
 
 class App extends Component {
+
+
+
   render() {
     return (
       <Router>
@@ -21,10 +26,9 @@ class App extends Component {
           }
         }>
         </Route>
-        <Route path='/dashboard/:username' exact strict component={User}>
+        <Route path='/login'exact strict component={Login}>
         </Route>
-
-        <NavLink to='/' strict activeStyle={{color:'green'}}>Home</NavLink>
+        <Link to='/login' exact strict><button>Login</button></Link>
 
       </div>
       </Router>

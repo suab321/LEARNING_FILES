@@ -57,12 +57,11 @@ app.post('/upload',(req,res)=>{
 })
 app.get('/getimage',(req,res)=>{
 	const{name}=req.params;
-	image.find({name:'abhinav'},(err,user)=>{
+	image.find({name:'ravi'},(err,user)=>{
 		if(err)
 			console.log(err)
 		else{
-			res.contentType(user[0].image.contentType)
-			res.send(user[0].image.data)
+			res.send(user)
 		}
 	})
 
