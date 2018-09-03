@@ -11,6 +11,8 @@ mongoose.connect('mongodb://127.0.0.1/testdb')
 mongoose.Promise=global.Promise
 
 const image_model=new mongoose.Schema({image:{data:Buffer,contentType:String},name:String})
+const image_path_model=new mongoose.Schema({path:{type:String,required:true},name:{type:String,required:true}})
+const image_path=mongoose.model('image_path',image_path_model)
 const image=mongoose.model('image',image_model)
 const app=express()
 //app.use(express.static('static/form'))
@@ -42,26 +44,26 @@ app.post('/upload',(req,res)=>{
 		res.render('form/form',{msg:err})
 	else{
 		res.render('form/form',{src:'uploads/'+req.file.filename})
-		const db=new image
+		const db=new image_path
 		db.name="abhinav"
-		db.image.data=fs.readFileSync('./public/uploads/'+req.file.filename)
-		db.image.contentType=req.file.mimetype
+		db.path='uploads/'+req.file.filename
 		db.save(err=>{
 			if(err)
 				console.log(err)
 		})
-	}
+		}
+	})
 
 
 })
-})
+
 app.get('/getimage',(req,res)=>{
 	const{name}=req.params;
-	image.find({name:'ravi'},(err,user)=>{
+	image_path.find({name:'abhinav'},(err,user)=>{
 		if(err)
-			console.log(err)
+			res.send(err)
 		else{
-			res.send(user)
+			res.send(user[0])
 		}
 	})
 

@@ -1,0 +1,1 @@
+{"version":3,"file":"5.ab1b2160d63af46bee33.hot-update.js","sources":["webpack:///pages/usd.jsx"],"sourcesContent":["const usd=()=>{\n\treturn <h1>sdF</h1>\n}\n\n\n// WEBPACK FOOTER //\n// pages/usd.jsx"],"mappings":";;;;;;;;;;;;AAAA;AACA;AAAA;AAAA;AAAA;AAAA;AAAA;AACA;;;;;;;;;;;;;;;;;;;;;;;A","sourceRoot":""}

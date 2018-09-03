@@ -28,7 +28,7 @@ class App extends Component {
         </Route>
         <Route path='/login'exact strict component={Login}>
         </Route>
-        <Link to='/login' exact strict><button>Login</button></Link>
+        <Link to='/login' href='/login' exact strict><button>Login</button></Link>
 
       </div>
       </Router>
