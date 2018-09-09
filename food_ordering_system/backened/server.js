@@ -7,9 +7,16 @@ const session=require('express-session')
 
 const app=express()
 
-app.use(session({key:'suab',
+app.use(session({key:'user_sid',
                 secret:'suab',
             cookie:{maxAge:null}}))
+
+const check=(req,res,next)=>{
+    if(req.session.user)
+    res.json(1)
+    else
+        next()
+}
 
 app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json())
@@ -19,8 +26,12 @@ const user=new mongoose.Schema({email:{type:String,unique:true,required:true},pa
     order:[{food:String,add:Boolean,price:Number,date:Date}]})
 const user_model=mongoose.model('user',user)
 
+app.get('/',check,(req,res)=>{
+    res.json(0)
+})
+
 //User LoginIn//
-app.post('/login',(req,res)=>{
+app.post('/register',(req,res)=>{
     const db=new user_model
     db.email=req.body.email
     const hash=bcrypt.hashSync(req.body.password,10)
@@ -36,5 +47,11 @@ app.put('/order/:email',(req,res)=>{
         'price':req.body.price,'date':Date.now()}}})
     .then(user=>{res.status(200).json(user)})
     .catch(err=>res.status(400).json(err))
+})
+
+//logout//
+app.get('/logout',(req,res)=>{
+    if(req.session.user)
+        res.clearCookie("user_sid").status(200).json('loggedOut')
 })
 app.listen(process.env.PORT||3000)
