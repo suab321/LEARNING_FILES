@@ -24,9 +24,10 @@ class Side extends Component{
             {`
             #main{
                 background-color:rgba(230,187,98,0.5);
-                width:10em;
+                width:8em;
                 height:100%;
                 margin-top:1em;
+                padding-left:2px;
                 padding-top:2px;
                 margin-top:2px;
                 padding-bottom:2px;

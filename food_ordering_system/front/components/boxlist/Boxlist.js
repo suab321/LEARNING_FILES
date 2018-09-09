@@ -25,7 +25,7 @@ class Boxlist extends Component{
 }
     render(){
         const boxes=this.items.map(item=>{
-            return(<Box name={item.name} price={this.items.Price} url={'sd'} category={this.items.category}/>)
+            return(<Box name={item.name} price={item.Price} url={'sd'} category={item.category}/>)
         })
         return(
             <div>

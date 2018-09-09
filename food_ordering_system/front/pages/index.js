@@ -1,8 +1,7 @@
-
-import React,{Component} from 'react'
 import Navbar from '../components/navbar/Navbar'
 import Boxlist from '../components/boxlist/Boxlist'
 import Side from '../components/sidebar/Side'
+import React,{Component} from 'react'
 
 class Home extends Component{
     constructor(props){
@@ -11,24 +10,15 @@ class Home extends Component{
     render(){
         return(
             <div>
-               <div id='nav'><Navbar/></div>
-                <div id='side'><Side/></div>
-            <div id='main'>
-           <Boxlist/>
-            </div>
-            <style jsx>
-            {`#main{
-                display:inline-block;
-                padding-left:10em;
-            }
-            #side{
-                position:fixed;
-            }
-            #nav{
-                positon:fixed;
-            }`}
-            </style>
-            </div>
+            <Navbar/>
+           <div id='side'><Side/></div>
+           <style jsx>
+           {`#side{
+               padding-top:10em;
+               position:fixed;
+           }`}
+           </style>
+           </div>
         )
     }
 
