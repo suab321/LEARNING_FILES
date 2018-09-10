@@ -1,7 +1,8 @@
-import Navbar from '../components/navbar/Navbar'
+import App from '../components/App/App'
 import Boxlist from '../components/boxlist/Boxlist'
 import Side from '../components/sidebar/Side'
 import React,{Component} from 'react'
+import Cart from '../components/cart/Cart';
 
 class Home extends Component{
     constructor(props){
@@ -10,17 +11,11 @@ class Home extends Component{
     render(){
         return(
             <div>
-            <Navbar/>
-           <div id='side'><Side/></div>
-           <style jsx>
-           {`#side{
-               padding-top:10em;
-               position:fixed;
-           }`}
-           </style>
+            <div>
+            <App/>
+           </div>
            </div>
         )
     }
-
 }
 export default Home;

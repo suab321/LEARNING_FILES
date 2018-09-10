@@ -1,0 +1,131 @@
+webpackHotUpdate(4,{
+
+/***/ "./components/user/User.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_styled_jsx_style__ = __webpack_require__("./node_modules/styled-jsx/style.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_styled_jsx_style___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_styled_jsx_style__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__("./node_modules/react/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
+var _jsxFileName = "/home/abhinav/LEARNING_FILES/food_ordering_system/front/components/user/User.js";
+
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var User =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(User, _Component);
+
+  function User(props) {
+    var _this;
+
+    _classCallCheck(this, User);
+
+    _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, props));
+    _this.state = {
+      popup: false
+    };
+    return _this;
+  }
+
+  _createClass(User, [{
+    key: "change",
+    value: function change() {
+      console.log("yes");
+      this.setState({
+        popup: true
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 14
+        },
+        className: "jsx-3231943044"
+      }, this.state.popup ? __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 16
+        },
+        className: "jsx-3231943044"
+      }, this.props.children, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
+        id: "outer",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 18
+        },
+        className: "jsx-3231943044"
+      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
+        id: "inner",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 19
+        },
+        className: "jsx-3231943044"
+      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("button", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 20
+        },
+        className: "jsx-3231943044"
+      }, "View Orders"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("p", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 21
+        },
+        className: "jsx-3231943044"
+      }, "LogOut")))) : __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 25
+        },
+        className: "jsx-3231943044"
+      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
+        id: "button",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 25
+        },
+        className: "jsx-3231943044"
+      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("button", {
+        onClick: this.change,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 25
+        },
+        className: "jsx-3231943044"
+      }, "User")), this.props.children), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_0_styled_jsx_style___default.a, {
+        styleId: "3231943044",
+        css: "p.jsx-3231943044{font-family:sans-serif;font-size:1em;}#outer.jsx-3231943044{height:100%;width:100%;background-color:#f1f1f1;position:absolute;}#inner.jsx-3231943044{text-align:center padding:1em;border:1px solid black;left:25%;right:25%;top:25%;bottom:25%;height:30%;margin:auto;background:white;}button.jsx-3231943044{margin-top:8em;position:absolute;margin-left:110em;font-size:1em;cursor:pointer;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbXBvbmVudHMvdXNlci9Vc2VyLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQTZCYSxBQUV1QyxBQUlYLEFBT0EsQUFXRSxZQWpCSCxHQWtCSyxRQXRCRixBQUtXLE9BTUYsR0FZUCxJQXRCbkIsV0FLcUIsR0FrQk4sRUFaRixTQUNDLEdBWUUsQ0FsQmhCLE1BT1ksUUFDRyxBQVdmLFdBVmUsV0FDQyxZQUNLLGlCQUNyQiIsImZpbGUiOiJjb21wb25lbnRzL3VzZXIvVXNlci5qcyIsInNvdXJjZVJvb3QiOiIvaG9tZS9hYmhpbmF2L0xFQVJOSU5HX0ZJTEVTL2Zvb2Rfb3JkZXJpbmdfc3lzdGVtL2Zyb250Iiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0LHtDb21wb25lbnR9IGZyb20gJ3JlYWN0J1xuXG5jbGFzcyBVc2VyIGV4dGVuZHMgQ29tcG9uZW50e1xuICAgIGNvbnN0cnVjdG9yKHByb3BzKXtcbiAgICAgICAgc3VwZXIocHJvcHMpXG4gICAgICAgIHRoaXMuc3RhdGU9e3BvcHVwOmZhbHNlfVxuICAgIH1cbiAgICBjaGFuZ2UoKXtcbiAgICAgICAgY29uc29sZS5sb2coXCJ5ZXNcIilcbiAgICAgICAgdGhpcy5zZXRTdGF0ZSh7cG9wdXA6dHJ1ZX0pXG4gICAgfVxuICAgIHJlbmRlcigpe1xuICAgICAgICByZXR1cm4oXG4gICAgICAgICAgICA8ZGl2PntcbiAgICAgICAgICAgICAgICAodGhpcy5zdGF0ZS5wb3B1cClcbiAgICAgICAgICAgICAgICA/PGRpdj5cbiAgICAgICAgICAgICAgICAgICAge3RoaXMucHJvcHMuY2hpbGRyZW59XG4gICAgICAgICAgICAgICAgPGRpdiBpZD0nb3V0ZXInPlxuICAgICAgICAgICAgICAgICAgICA8ZGl2IGlkPSdpbm5lcic+XG4gICAgICAgICAgICAgICAgICAgICAgICA8YnV0dG9uPlZpZXcgT3JkZXJzPC9idXR0b24+XG4gICAgICAgICAgICAgICAgICAgICAgICA8cD5Mb2dPdXQ8L3A+XG4gICAgICAgICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICA6KDxkaXY+PGRpdiBpZD0nYnV0dG9uJz48YnV0dG9uIG9uQ2xpY2s9e3RoaXMuY2hhbmdlfT5Vc2VyPC9idXR0b24+PC9kaXY+XG4gICAgICAgICAgICAgICAge3RoaXMucHJvcHMuY2hpbGRyZW59XG4gICAgICAgICAgICAgICAgPC9kaXY+KVxuICAgICAgICAgICAgfVxuICAgICAgICAgICAgPHN0eWxlIGpzeD5cbiAgICAgICAgICAgIHtgcHtcbiAgICAgICAgICAgICAgICBmb250LWZhbWlseTpzYW5zLXNlcmlmO1xuICAgICAgICAgICAgICAgIGZvbnQtc2l6ZToxZW07XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICAjb3V0ZXJ7XG4gICAgICAgICAgICAgICAgaGVpZ2h0OjEwMCU7XG4gICAgICAgICAgICAgICAgd2lkdGg6MTAwJTtcbiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiNmMWYxZjE7XG4gICAgICAgICAgICAgICAgcG9zaXRpb246YWJzb2x1dGU7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICAjaW5uZXJ7XG4gICAgICAgICAgICAgICAgdGV4dC1hbGlnbjpjZW50ZXJcbiAgICAgICAgICAgICAgICBwYWRkaW5nOjFlbTtcbiAgICAgICAgICAgICAgICBib3JkZXI6MXB4IHNvbGlkIGJsYWNrO1xuICAgICAgICAgICAgICAgIGxlZnQ6IDI1JTtcbiAgICAgICAgICAgICAgICByaWdodDogMjUlO1xuICAgICAgICAgICAgICAgIHRvcDogMjUlO1xuICAgICAgICAgICAgICAgIGJvdHRvbTogMjUlO1xuICAgICAgICAgICAgICAgIGhlaWdodDogMzAlO1xuICAgICAgICAgICAgICAgIG1hcmdpbjogYXV0bztcbiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kOiB3aGl0ZTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgYnV0dG9ue1xuICAgICAgICAgICAgICAgbWFyZ2luLXRvcDo4ZW07XG4gICAgICAgICAgICAgIHBvc2l0aW9uOmFic29sdXRlO1xuICAgICAgICAgICAgICBtYXJnaW4tbGVmdDoxMTBlbTtcbiAgICAgICAgICAgICAgZm9udC1zaXplOjFlbTtcbiAgICAgICAgICAgICAgY3Vyc29yOnBvaW50ZXI7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICBgfVxuICAgICAgICAgICAgPC9zdHlsZT5cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICApXG4gICAgfVxufVxuXG5leHBvcnQgZGVmYXVsdCBVc2VyIl19 */\n/*@ sourceURL=components/user/User.js */"
+      }));
+    }
+  }]);
+
+  return User;
+}(__WEBPACK_IMPORTED_MODULE_1_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (User);
+
+/***/ })
+
+})
+//# sourceMappingURL=4.8172db7eaa246eb0d78c.hot-update.js.map

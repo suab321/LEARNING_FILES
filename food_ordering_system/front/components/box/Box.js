@@ -1,6 +1,7 @@
 
-
 const Box=(props)=>{
+
+
     return(
         <div id='main'>
         <div id='outer'>

@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import Boxlist from '../boxlist/Boxlist'
 import Side from '../sidebar/Side'
+import Cart from '../cart/Cart'
 
  class Navbar extends Component{
     constructor(props){
@@ -9,28 +10,24 @@ import Side from '../sidebar/Side'
     render(){
         return(
             <div>
-               
             <div id='bar'>
+            <div id='add'><p>ClICK TO ADD ITEMS</p></div>
 		    <p id='text'>SUAB FOOD CENTER</p>
             <div id='side'><Side/></div>
 	        </div>
-            <div id='main'><Boxlist/></div>
+            <div id='main'><Boxlist/></div> 
             <style jsx>{`
             #bar{
-                background-color:rgba(230,0,0,1);
+                background-color:rgba(230,0,0,0.1);
                 padding-top: 1px;
                 text-align: center;
-                border: transparent;
                 height: 150px;
                 width: 100%;
                 position:fixed;
-                
-                
-                
+                display:inline-block;
                 }
             #text{
-                padding-top:10px;
-                font-size: 3em;
+                font-size: 2.5em;
                 font-style: bold;
                 color:rgba(0,230,0,0.9)
             }
@@ -40,10 +37,18 @@ import Side from '../sidebar/Side'
                 positon:fixed;
             }
             #main{
-                
-                display:inline-block;
                 padding-top:10em;
                 padding-left:10em;
+            }
+            button{
+                position:fixed;
+                margin-left:130em;
+                margin-top:9em;
+                
+            }
+            #add{
+                font-size:1em;
+                color:black
             }
         `}
             </style>
