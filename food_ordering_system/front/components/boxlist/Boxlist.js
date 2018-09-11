@@ -1,6 +1,5 @@
 import Box from '../box/Box';
 import React,{Component} from 'react';
-import Cart from '../cart/Cart'
 
 class Boxlist extends Component{
     

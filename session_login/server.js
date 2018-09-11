@@ -33,6 +33,7 @@ let session_checker=(req,res,next)=>{
 		next()
 }
 
+
 app.get('/',session_checker,(req,res)=>{
 	res.status(200).json('/login')
 })

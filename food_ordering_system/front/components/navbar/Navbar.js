@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import Boxlist from '../boxlist/Boxlist'
 import Side from '../sidebar/Side'
-import Cart from '../cart/Cart'
 
  class Navbar extends Component{
     constructor(props){
