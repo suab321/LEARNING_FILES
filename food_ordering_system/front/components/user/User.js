@@ -1,13 +1,14 @@
 import React,{Component} from 'react'
 import Link from 'next/link';
+import axios from 'axios'
 
 class User extends Component{
     constructor(props){
         super(props)
         this.state={popup:'no'}
-
     this.change=this.change.bind(this)
     this.close=this.close.bind(this)
+    this.logout=this.logout.bind(this)
     }
     change(){
         console.log('yes')
@@ -15,6 +16,10 @@ class User extends Component{
     }
     close(){
         this.setState({popup:'no'})
+    }
+    logout(){
+        console.log('logout')
+        axios.post('http://localhost:3002/logout')
     }
     render(){
         return(
@@ -25,7 +30,7 @@ class User extends Component{
                     <div id='inner'>
                         <Link href='/cart'><button>My Cart</button></Link><br/><br/><br/>
                        <Link href='/Order'><button>ViewOrders</button></Link><br/><br/><br/>
-                        <button>LogOut</button><br/><br/><br/>
+                        <button onClick={this.logout}>LogOut</button><br/><br/><br/>
                         <button onClick={this.close}>Close</button><br/><br/>
                     </div>
                     </div>

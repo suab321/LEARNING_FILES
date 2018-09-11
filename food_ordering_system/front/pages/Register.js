@@ -1,24 +1,52 @@
 import React,{Component} from 'react'
+import axios from 'axios'
 import Link from 'next/link'
 class Register extends Component{
     constructor(props){
         super(props)
+        this.register=this.register.bind(this)
+        this.email=this.email.bind(this)
+        this.password=this.password.bind(this)
+        this.cpassword=this.cpassword.bind(this)
+        this.state={email:'',password:'',cpassword:'',err:1}
+    }
+    
+    register(){
+        if(this.state.password===this.state.cpassword)
+            axios.post('http://localhost:3002/register',{email:this.state.email,password:this.state.password})
+        else
+        this.setState({err:0})
+
+
+    }
+
+    email(){
+        this.setState({email:event.target.value})
+    }
+    password(event){
+        this.setState({password:event.target.value})
+    }
+    cpassword(event){
+        this.setState({cpassword:event.target.value})
     }
     render(){
         return(
-            <div style={{textAlign:"center"}}>
-			<div>
+            <div>
+            {
+                (this.state.err)
+                ?
+                <div style={{textAlign:"center"}}>
 				<div class='form'>
-				<form method="POST" action='/register'>
+				<form method="POST" action='http://localhost:3002/register'>
 				<label style={{fontSize: "2em"}}>REGISTER</label><br/><br/><br/>
 				<img src="https://s3.amazonaws.com/thumbnails.illustrationsource.com/huge.102.513291.JPG" alt="" width="200px" height="200px"/><br/><br/>
 				<label>Email</label><br/><br/>
-				<input type="email" name="email" required="true"/><br/><br/>
+				<input type="email" name="email" required="true"onChange={this.email}/><br/><br/>
 				<label>Password</label><br/><br/>
-				<input type="password" name="password" required="true"/><br/><br/>
+				<input type="password" name="password" required="true"onChange={this.password}/><br/><br/>
                 <label>Password</label><br/><br/>
-				<input type="password" name="password" required="true"/><br/><br/>
-				<button style={{cursor: "pointer",fontSize: "1em"}}>Login</button><br/><br/>
+				<input type="password" name="cpassword" required="true"onChange={this.cpassword}/><br/><br/>
+				<button style={{cursor: "pointer",fontSize: "1em"}}onClick={this.register}>Register</button><br/><br/>
 				<p style={{fontFamily: "sans-serif"}}>Dont Have an Account!</p>
 				</form>
 				<form action='/register_page' method="GET">
@@ -26,6 +54,29 @@ class Register extends Component{
 				</form>
 				</div>
 			</div>
+            :(
+                <div style={{textAlign:"center"}}>
+				<div class='form'>
+				<form method="POST" action='http://localhost:3002/register'>
+				<label style={{fontSize: "2em"}}>REGISTER</label><br/><br/><br/>
+				<img src="https://s3.amazonaws.com/thumbnails.illustrationsource.com/huge.102.513291.JPG" alt="" width="200px" height="200px"/><br/><br/>
+				<label>Email</label><br/><br/>
+				<input type="email" name="email" required="true"onChange={this.email}/><br/><br/>
+				<label>Password</label><br/><br/>
+				<input type="password" name="password" required="true"onChange={this.password}/><br/><br/>
+                <label>Password</label><br/><br/>
+                <h1>Password dont match!</h1>
+				<input type="password" name="password" required="true"onChange={this.cpassword}/><br/><br/>
+				<button style={{cursor: "pointer",fontSize: "1em"}}onClick={this.register}>Register</button><br/><br/>
+				<p style={{fontFamily: "sans-serif"}}>Dont Have an Account!</p>
+				</form>
+				<form action='/register_page' method="GET">
+				<Link href='/Login'><button style={{cursor:"pointer"}}>Click to Login</button></Link>
+				</form>
+				</div>
+                </div>
+            )
+            }
             <style jsx>
             {`
             .form{
@@ -49,8 +100,10 @@ class Register extends Component{
                 text-align: center;
             }
             `}
+           
             </style>
-			</div>
+
+            </div>
         )
     }
 }
