@@ -1,27 +1,28 @@
 import React,{Component} from 'react'
 import Link from 'next/link'
-class Login extends Component{
+class Register extends Component{
     constructor(props){
         super(props)
     }
-
     render(){
         return(
             <div style={{textAlign:"center"}}>
 			<div>
 				<div class='form'>
-				<form method="POST" action='/login'>
-				<label style={{fontSize: "2em"}}>LOGIN</label><br/><br/><br/>
+				<form method="POST" action='/register'>
+				<label style={{fontSize: "2em"}}>REGISTER</label><br/><br/><br/>
 				<img src="https://s3.amazonaws.com/thumbnails.illustrationsource.com/huge.102.513291.JPG" alt="" width="200px" height="200px"/><br/><br/>
 				<label>Email</label><br/><br/>
 				<input type="email" name="email" required="true"/><br/><br/>
 				<label>Password</label><br/><br/>
 				<input type="password" name="password" required="true"/><br/><br/>
+                <label>Password</label><br/><br/>
+				<input type="password" name="password" required="true"/><br/><br/>
 				<button style={{cursor: "pointer",fontSize: "1em"}}>Login</button><br/><br/>
 				<p style={{fontFamily: "sans-serif"}}>Dont Have an Account!</p>
 				</form>
 				<form action='/register_page' method="GET">
-				<Link href='/Register'><button style={{cursor:"pointer"}}>Click to Register</button></Link>
+				<Link href='/Login'><button style={{cursor:"pointer"}}>Click to Login</button></Link>
 				</form>
 				</div>
 			</div>
@@ -53,4 +54,4 @@ class Login extends Component{
         )
     }
 }
-export default Login;
+export default Register;
