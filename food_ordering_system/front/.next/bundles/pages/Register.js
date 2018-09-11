@@ -1,7 +1,7 @@
 module.exports =
 __NEXT_REGISTER_PAGE('/Register', function() {
           var comp =
-      webpackJsonp([5],{
+      webpackJsonp([6],{
 
 /***/ "./node_modules/@babel/runtime/core-js/json/stringify.js":
 /***/ (function(module, exports, __webpack_require__) {

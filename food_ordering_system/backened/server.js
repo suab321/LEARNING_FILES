@@ -3,6 +3,8 @@ const bodyparser=require('body-parser')
 const mongoose=require('mongoose')
 const bcrypt=require('bcrypt')
 const session=require('express-session')
+const user_model=require('./database/data_base')
+const orders=require('./routes/order')
 
 
 const app=express()
@@ -13,24 +15,32 @@ app.use(session({key:'user_sid',
 
 const check=(req,res,next)=>{
     if(req.session.user)
-    res.json(1)
+    res.redirect('http://localhost:3000/index')
     else
         next()
 }
-
+app.use('/cart',orders);
 app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json())
-mongoose.Promise=global.Promise
-mongoose.connect('mongodb://127.0.0.1/food_db')
-const user=new mongoose.Schema({email:{type:String,unique:true,required:true},password:{type:String,required:true},
-    order:[{food:String,add:Boolean,price:Number,date:Date}]})
-const user_model=mongoose.model('user',user)
+
 
 app.get('/',check,(req,res)=>{
-    res.json(0)
+    res.redirect('http://localhost:3000/Login')
 })
 
-//User LoginIn//
+app.get('/login',(req,res)=>{
+    const email=req.body.email
+    user_model.findOne({email},{password:true}).then(user=>{
+        if(bcrypt.compareSync(req.body.pass,user.password)){
+            req.session.user=user
+            res.status(200).redirect('http://localhost:3000/index')
+        }
+        else
+            res.redirect('http://localhost:3000/Login')
+    }).catch(err=>{res.redirect('http://localhost:3000/Login')})
+})
+
+//User Register//
 app.post('/register',(req,res)=>{
     const db=new user_model
     db.email=req.body.email
@@ -38,7 +48,8 @@ app.post('/register',(req,res)=>{
     db.password=hash
     db.save().then(user=>{
         req.session.user=user
-        res.status(200).json(user)}).catch(err=>{res.status(400).json(err)})
+        console.log(req.session.user)
+        res.status(200).redirect('http://localhost:3000/index')}).catch(err=>{res.status(400).redirect('http://localhost:3000/Register')})
 })
 
 //Food ordering//
@@ -54,4 +65,4 @@ app.get('/logout',(req,res)=>{
     if(req.session.user)
         res.clearCookie("user_sid").status(200).json('loggedOut')
 })
-app.listen(process.env.PORT||3000)
+app.listen(process.env.PORT||3001)
