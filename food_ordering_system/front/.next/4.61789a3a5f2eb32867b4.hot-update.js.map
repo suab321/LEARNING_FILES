@@ -1,1 +1,0 @@
-{"version":3,"file":"4.61789a3a5f2eb32867b4.hot-update.js","sources":["webpack:///components/cart/Cart.js"],"sourcesContent":["const Cart=()=>{\n    return(\n        <h1>Cart</h1>\n    )\n}\nexport default Cart\n\n\n\n// WEBPACK FOOTER //\n// components/cart/Cart.js"],"mappings":";;;;;;;;;;;AAAA;AACA;AACA;AAAA;AAAA;AAAA;AAAA;AAEA;AACA;AAAA;;;;;;;A","sourceRoot":""}

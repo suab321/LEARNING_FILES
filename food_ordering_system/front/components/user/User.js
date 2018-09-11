@@ -1,7 +1,5 @@
 import React,{Component} from 'react'
-import Order from '../order/Order'
-import Cart from '../cart/Cart'
-import Placed from '../placed/Placed'
+import Link from 'next/link';
 
 class User extends Component{
     constructor(props){
@@ -10,9 +8,6 @@ class User extends Component{
 
     this.change=this.change.bind(this)
     this.close=this.close.bind(this)
-    this.order=this.order.bind(this)
-    this.cart=this.cart.bind(this)
-    this.placed=this.placed.bind(this)
     }
     change(){
         console.log('yes')
@@ -21,15 +16,6 @@ class User extends Component{
     close(){
         this.setState({popup:'no'})
     }
-    order(){
-        this.setState({popup:'order'})
-    }
-    cart(){
-        this.setState({popup:'cart'})
-    }
-    placed(){
-        this.setState({popup:'placed'})
-    }
     render(){
         return(
             <div>{
@@ -37,8 +23,8 @@ class User extends Component{
                 ?<div>
                 <div id='outer'>
                     <div id='inner'>
-                        <button onClick={this.cart}>My Cart</button><br/><br/><br/>
-                        <button onClick={this.order}>ViewOrders</button><br/><br/><br/>
+                        <Link href='/cart'><button>My Cart</button></Link><br/><br/><br/>
+                       <Link href='/Order'><button>ViewOrders</button></Link><br/><br/><br/>
                         <button>LogOut</button><br/><br/><br/>
                         <button onClick={this.close}>Close</button><br/><br/>
                     </div>
@@ -47,25 +33,13 @@ class User extends Component{
                     
                 </div>
                 :(
-                    this.state.popup==='no'
-                    ?<div>
+                    <div>
                     <div>
                     <div id='main'>{this.props.children}</div>
                     <div id='main'><img id='button' onClick={this.change} src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/220px-User_icon_2.svg.png'height='70px' width='70px'/>
                     </div>
                     </div>
                     </div>
-                    :(
-                        this.state.popup==='order'
-                        ?<Order/>
-                        :(
-                            this.state.popup==='cart'
-                            ?<Cart change={this.placed}/>
-                            :<Placed change={this.close}/>
-                        )
-                    )
-                   
-                
                 )
             }
             <style jsx>
