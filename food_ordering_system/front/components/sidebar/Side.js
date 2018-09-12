@@ -1,23 +1,27 @@
 import React,{Component} from 'react';
+import { timingSafeEqual } from 'crypto';
 
 class Side extends Component{
     constructor(props){
         super(props)
+        
     }
     render(){
         return(
             <div>
             <div id='main'>
-                <select>
-                    <option name='mc'>Main Course</option>
-                    <option name='sn'>Snacks</option>
-                    <option name='des'>Dessert</option>
+                <select onClick={(event)=>this.props.category(event)}>
+                    <option name='MainCourse'>Main Course</option>
+                    <option name='Snacks'>Snacks</option>
+                    <option name='Dessert'>Dessert</option>
                 </select><br/><br/><br/><br/><br/>
-                <input type='checkbox' value='veg'/>Veg<br/>
-                <input type='checkbox' value='nonveg'/>Non-Veg<br/><br/><br/><br/><br/><br/>
-                <select>
-                    <option name='ind'>Indian</option>
-                    <option name='chi'>Chinese</option>
+                <select onClick={(event)=>this.props.rel(event)}>
+                    <option name='Veg'>Veg</option>
+                    <option name='Non_veg'>Non-Veg</option>
+                </select><br/><br/><br/><br/><br/>
+                <select onClick={(event)=>this.props.cui(event)}>
+                    <option name='Indian'>Indian</option>
+                    <option name='Chinese'>Chinese</option>
                 </select>
             </div>
             <style jsx>

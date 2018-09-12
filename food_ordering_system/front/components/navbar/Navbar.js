@@ -5,16 +5,34 @@ import Side from '../sidebar/Side'
  class Navbar extends Component{
     constructor(props){
         super(props)
+        this.state={category:"",cui:"",rel:""}
+        this.category=this.category.bind(this)
+        this.cui=this.cui.bind(this)
+        this.rel=this.rel.bind(this) 
     }
+    category(event){
+        console.log(event.target.value)
+        this.setState({category:event.target.value})
+    }
+    cui(event){
+        console.log(event.target.value)
+        this.setState({cui:event.target.value})
+    }
+    rel(event){
+        console.log(event.target.value)
+        this.setState({rel:event.target.value})
+    }
+
     render(){
+        console.log(this.state.category)
         return(
             <div>
             <div id='bar'>
             <div id='add'><p>ClICK TO ADD ITEMS</p></div>
 		    <p id='text'>SUAB FOOD CENTER</p>
-            <div id='side'><Side/></div>
+            <div id='side'><Side category={this.category} cui={this.cui} rel={this.rel}/></div>
 	        </div>
-            <div id='main'><Boxlist/></div> 
+            <div id='main'><Boxlist category={this.state.category} cui={this.state.cui} rel={this.state.rel}/></div> 
             <style jsx>{`
             #bar{
                 background-color:rgba(230,0,0,0.1);

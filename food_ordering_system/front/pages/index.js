@@ -1,6 +1,4 @@
 import App from '../components/App/App'
-import Boxlist from '../components/boxlist/Boxlist'
-import Side from '../components/sidebar/Side'
 import React,{Component} from 'react'
 
 class Home extends Component{
@@ -10,9 +8,7 @@ class Home extends Component{
     render(){
         return(
             <div>
-            <div>
             <App/>
-           </div>
            </div>
         )
     }
