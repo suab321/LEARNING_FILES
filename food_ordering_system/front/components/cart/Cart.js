@@ -10,6 +10,7 @@ class Cart extends Component{
         this.state={data:[]}
         this.remove=this.remove.bind(this)
         this.set=this.set.bind(this)
+        this.place_order=this.place_order.bind(this)
         this.componentDidMount=this.componentDidMount.bind(this)
 }
 
@@ -23,6 +24,13 @@ remove(id){
 
 set(data){
     this.setState({data:data})
+}
+
+place_order(){
+    axios.get('http://localhost:3002/cookie').then(response=>{
+        this.state.data.map(item=>{axios.put(`http://localhost:3002/cart/order_placed/${response.data}`,
+        {name:item.name,price:item.price,category:item.category,url:item.url})})
+    })
 }
 
 componentDidMount(){
@@ -39,7 +47,7 @@ render(){
         const box=boxes.map(item=>{
             return(<Box id={item._id} remove={this.remove} name={item.name} price={item.price} url={item.url} category={item.category}/>)
         })
-            console.log(box)
+
    return(
         <div>
         <div id='main2'>
@@ -48,7 +56,7 @@ render(){
 		<p id='text'>SUAB FOOD CENTER</p>
 	    </div>
             <div id='main'>{box}</div></div>
-            <div id='main2'><Link href='/Order_placed'><button >Place Order</button></Link></div>
+            <div id='main2'><button onClick={this.place_order}>Place Order</button></div>
             
             <style jsx>{`
             #bar{
