@@ -11,12 +11,26 @@ const cookieparser=require('cookie-parser')
 
 
 const app=express()
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", 'http://localhost:3000','http://localhost:3000/Login');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Credentials", 'true')
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+       next();
+ });
 app.use(cookieparser())
 app.use(cors({
-    credentials: true,
-    origin: ['http://localhost:3000'],
-    methods:['GET','POST']
+    Credentials:true,
+    origin: ['http://localhost:3000','http://localhost:3000/Login'],
+    methods:['GET','POST','PUT'],
+    headers:true
 }))
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Credentials","true")
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+       next();
+ });
 app.use(session({key:'user_sid',
                 secret:'suab',
                 resave:true,
@@ -29,10 +43,16 @@ const check=(req,res,next)=>{
     else
         next()
 }
+//Cart urls
 app.use('/cart',orders);
 app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json())
 
+app.get('/cookie',(req,res)=>{
+    if(req.session.user && req.cookies.user_sid){
+        res.json(req.session.user.email)
+    }
+})
 //Home
 app.get('/',check,(req,res)=>{
     res.redirect('http://localhost:3000/Login')
@@ -42,7 +62,7 @@ app.get('/get_login',(req,res)=>{res.status(200).redirect('http://localhost:3000
 
 app.post('/login',(req,res)=>{
     const email=req.body.email
-    user_model.findOne({email},{password:true}).then(user=>{
+    user_model.findOne({email},{email:true,password:true}).then(user=>{
         if(bcrypt.compareSync(req.body.password,user.password)){
             req.session.user=user
             res.status(200).redirect('/')
@@ -56,7 +76,7 @@ app.post('/login',(req,res)=>{
 app.post('/register',(req,res)=>{
     const db=new user_model
     db.email=req.body.email
-    db.password=bcrypt.hashSync(req.body.password,10)
+    db.password=bcrypt.hashSync(req.body.password||req.body.cpassword,10)
     db.save().then(user=>{
         req.session.user=user
         res.status(200).redirect('http://localhost:3000/index')})

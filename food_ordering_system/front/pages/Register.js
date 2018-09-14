@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import axios from 'axios'
 import Link from 'next/link'
-axios.defaults.withCredentials=true;
+
 
 class Register extends Component{
     constructor(props){
@@ -17,7 +17,7 @@ class Register extends Component{
         if(this.state.password===this.state.cpassword)
             axios.post('http://localhost:3002/register',{email:this.state.email,password:this.state.password})
         else
-        this.setState({err:0})
+        this.setState({err:0,password:'',cpassword:''})
 
 
     }

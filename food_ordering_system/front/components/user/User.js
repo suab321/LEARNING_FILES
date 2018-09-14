@@ -1,15 +1,16 @@
 import React,{Component} from 'react'
 import Link from 'next/link';
 import axios from 'axios'
-axios.defaults.withCredentials = true;
+
 
 class User extends Component{
     constructor(props){
         super(props)
-        this.state={popup:'no',log:'ok'}
+        this.state={popup:'no',log:''}
     this.change=this.change.bind(this)
     this.close=this.close.bind(this)
     this.logout=this.logout.bind(this)
+    this.login=this.login.bind(this)
     }
     change(){
         console.log('yes')
@@ -25,6 +26,17 @@ class User extends Component{
                 axios.get('http://localhost:3002/get_login')
             }
         })
+    }
+    login(){
+        axios.get('http://localhost:3002/get_login')
+    }
+    componentDidMount(){
+        axios.get('http://localhost:3002/cookie').then(
+            response=>{
+                if(response.data!=undefined)
+                    this.setState({log:ok})
+            }
+        )
     }
     render(){
         return(
@@ -50,6 +62,7 @@ class User extends Component{
                     </div>
                     </div>
                     </div>
+                   
                 )
             }
             <style jsx>

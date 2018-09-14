@@ -1,7 +1,7 @@
 import Box from '../box/Box';
 import React,{Component} from 'react';
 import axios from 'axios'
-axios.defaults.withCredentials=true;
+
 
 class Boxlist extends Component{
     
@@ -17,20 +17,21 @@ class Boxlist extends Component{
             if(item.category===this.props.category)
                 return item
         })
-        console.log(boxes1)
+       
         let boxes2=boxes1.filter(item=>{
             if(item.type===this.props.cui)
                 return item
         })
-        console.log(boxes2)
+       
        let boxes3=boxes2.filter(item=>{
             if(item.gene===this.props.rel)
                 return item
         })
-        console.log(boxes3)
+      
         const boxe=this.state.data.map(item=>{
             return(<Box name={item.name} price={item.price} url={item.url} category={item.category}/>)
         })
+        console.log(boxe)
         return(
             <div id='main'>
                 {boxe}
