@@ -17,7 +17,7 @@ class Register extends Component{
         if(this.state.password===this.state.cpassword)
             axios.post('http://localhost:3002/register',{email:this.state.email,password:this.state.password})
         else
-        this.setState({err:0,password:'',cpassword:''})
+        this.setState({err:0})
 
 
     }
@@ -68,7 +68,7 @@ class Register extends Component{
 				<input type="password" name="password" required="true"onChange={this.password}/><br/><br/>
                 <label>Password</label><br/><br/>
                 <h1>Password dont match!</h1>
-				<input type="password" name="password" required="true"onChange={this.cpassword}/><br/><br/>
+				<input type="password" name="cpassword" required="true"onChange={this.cpassword}/><br/><br/>
 				<button style={{cursor: "pointer",fontSize: "1em"}}onClick={this.register}>Register</button><br/><br/>
 				<p style={{fontFamily: "sans-serif"}}>Dont Have an Account!</p>
 				</form>

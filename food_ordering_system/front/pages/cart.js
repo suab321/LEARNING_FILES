@@ -1,5 +1,7 @@
 import Cart from '../components/cart/Cart'
-const cart=(props)=>{
+import axios from 'axios'
+axios.defaults.withCredentials=true;
+const cart=()=>{
     return(
         <div><Cart/></div>
     )

@@ -1,1 +1,1 @@
-{"/cart":"bundles/pages/cart.js","/Register":"bundles/pages/Register.js","/_app":"bundles/pages/_app.js","/_error":"bundles/pages/_error.js","/_document":"bundles/pages/_document.js"}
+{"/cart":"bundles/pages/cart.js","/index":"bundles/pages/index.js","/_app":"bundles/pages/_app.js","/_error":"bundles/pages/_error.js","/_document":"bundles/pages/_document.js","/":"bundles/pages/index.js"}

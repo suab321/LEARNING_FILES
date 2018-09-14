@@ -5,7 +5,7 @@ import Side from '../sidebar/Side'
  class Navbar extends Component{
     constructor(props){
         super(props)
-        this.state={category:"",cui:"",rel:""}
+        this.state={category:"Main Course",cui:"Indian",rel:"Veg"}
         this.category=this.category.bind(this)
         this.cui=this.cui.bind(this)
         this.rel=this.rel.bind(this) 

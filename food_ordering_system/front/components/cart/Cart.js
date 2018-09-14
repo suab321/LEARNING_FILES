@@ -2,28 +2,25 @@ import Box from '../cart_box/Box'
 import React,{Component} from 'react'
 import Link from 'next/link'
 import axios from 'axios'
-axios.defaults.withCredentials = true;
+
+
 
 
 class Cart extends Component{
    
     constructor(props){
         super(props)
-        this.state={id:'',data:[]}
-    }
-    componentDidMount(){
-        axios.get('http://localhost:3002/cookie').then(response=>{
-            axios.get(`http://localhost:3002/cart/cart_food/${response.data}`)
-        .then(response=>{
-            this.box=response.data.map(item=>{
-               return(<Box name={item.name} price={item.price} category={item.category} url={item.url}/>)
-            })
-        })
-    })
+        this.state={data:[]}        
     }
 
 render(){
-   console.log(this.box)
+    var box=[]
+    axios.get('http://localhost:3002/cookie').then(response=>{
+        axios.get(`http://localhost:3002/cart/cart_food/${response.data}`)
+        .then(response=>{console.log(response.data.map(item=>{
+            return(<Box name={item.name} price={item.price} url={item.url} category={item.category}/>)
+        }))})})
+        console.log(box)
    return(
         <div>
         <div id='main2'>
@@ -32,7 +29,7 @@ render(){
 		<p id='text'>SUAB FOOD CENTER</p>
 	    </div>
             <div id='main'></div></div>
-            <div id='main2'>{this.box}<Link href='/Order_placed'><button >Place Order</button></Link></div>
+            <div id='main2'><Link href='/Order_placed'><button >Place Order</button></Link></div>
             
             <style jsx>{`
             #bar{
