@@ -10,21 +10,23 @@ class Cart extends Component{
         this.state={data:[]}
         this.remove=this.remove.bind(this)
         this.set=this.set.bind(this)
+        this.componentDidMount=this.componentDidMount.bind(this)
 }
 
-remove(id){
-    console.log(id)
+remove(name){
+    console.log(name)
     axios.get('http://localhost:3002/cookie').then(response=>{
         axios.delete(`http://localhost:3002/cart/remove/${response.data}/${name}`)
     })
-    this.componentDidMount
+    this.componentDidMount()
 }
 
 set(data){
     this.setState({data:data})
 }
 
-componentDidMount(name){
+componentDidMount(){
+    console.log('in')
     axios.get('http://localhost:3002/cookie').then(response=>{
         axios.get(`http://localhost:3002/cart/cart_food/${response.data}`)
         .then(response=>{this.set(response.data)})

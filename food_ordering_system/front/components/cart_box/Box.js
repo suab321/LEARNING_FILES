@@ -2,7 +2,7 @@ import axios from 'axios'
 const Box=(props)=>{
 
     return(
-        <div id='main' onClick={()=>props.remove(props._id)}>
+        <div id='main' onClick={()=>props.remove(props.name)}>
         <div id='outer'>
         <div id='inner'>
         <img src={props.url} height="200px" width='200px'/>
