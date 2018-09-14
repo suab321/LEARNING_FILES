@@ -12,18 +12,17 @@ const cookieparser=require('cookie-parser')
 
 const app=express()
 app.use(cookieparser())
-app.use(cors({
-    Credentials:true,
-    origin: ['http://localhost:3000','http://localhost:3000/Login'],
-    methods:['GET','POST','PUT','DELETE'],
-    headers:true
-}))
 app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Credentials","true")
     res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
        next();
  });
+app.use(cors({
+    credentials:true,
+    origin: ['http://localhost:3000/index'],
+    methods:['GET','POST','PUT','DELETE']
+}))
 app.use(session({key:'user_sid',
                 secret:'suab',
                 resave:true,
