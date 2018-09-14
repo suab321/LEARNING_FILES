@@ -13,10 +13,10 @@ class Cart extends Component{
         this.componentDidMount=this.componentDidMount.bind(this)
 }
 
-remove(name){
-    console.log(name)
+remove(id){
+    console.log(id)
     axios.get('http://localhost:3002/cookie').then(response=>{
-        axios.delete(`http://localhost:3002/cart/remove/${response.data}/${name}`)
+        axios.delete(`http://localhost:3002/cart/remove/${response.data}/${id}`)
     })
     this.componentDidMount()
 }
