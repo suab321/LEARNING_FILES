@@ -1,11 +1,12 @@
 import React,{Component} from 'react'
 import Link from 'next/link';
 import axios from 'axios'
+axios.defaults.withCredentials = true;
 
 class User extends Component{
     constructor(props){
         super(props)
-        this.state={popup:'no'}
+        this.state={popup:'no',log:'ok'}
     this.change=this.change.bind(this)
     this.close=this.close.bind(this)
     this.logout=this.logout.bind(this)
@@ -18,8 +19,12 @@ class User extends Component{
         this.setState({popup:'no'})
     }
     logout(){
-        console.log('logout')
-        axios.post('http://localhost:3002/logout')
+        axios.get('http://localhost:3002/logout').then(response=>{
+            if(response.data==='ok'){
+                console.log('ok')
+                axios.get('http://localhost:3002/get_login')
+            }
+        })
     }
     render(){
         return(

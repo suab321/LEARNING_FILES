@@ -7,17 +7,25 @@ const {user_model}=require('./database/data_base')
 const {food_model}=require('./database/data_base')
 const orders=require('./routes/order')
 const cors=require('cors')
+const cookieparser=require('cookie-parser')
 
 
 const app=express()
-app.use(cors())
+app.use(cookieparser())
+app.use(cors({
+    credentials: true,
+    origin: ['http://localhost:3000'],
+    methods:['GET','POST']
+}))
 app.use(session({key:'user_sid',
                 secret:'suab',
+                resave:true,
+	            saveUninitialized:true,
             cookie:{maxAge:null}}))
 
 const check=(req,res,next)=>{
-    if(req.session.user)
-    res.redirect('http://localhost:3000/index')
+    if(req.session.user&&req.cookies.user_sid)
+        res.redirect('http://localhost:3000/index')
     else
         next()
 }
@@ -27,7 +35,7 @@ app.use(bodyparser.json())
 
 //Home
 app.get('/',check,(req,res)=>{
-    res.redirect('http://localhost:3000/index')
+    res.redirect('http://localhost:3000/Login')
 })
 //Login
 app.get('/get_login',(req,res)=>{res.status(200).redirect('http://localhost:3000/Login')})
@@ -37,7 +45,7 @@ app.post('/login',(req,res)=>{
     user_model.findOne({email},{password:true}).then(user=>{
         if(bcrypt.compareSync(req.body.password,user.password)){
             req.session.user=user
-            res.status(200).redirect('http://localhost:3000/index')
+            res.status(200).redirect('/')
         }
         else
             res.redirect('http://localhost:3000/Login')
@@ -51,18 +59,16 @@ app.post('/register',(req,res)=>{
     db.password=bcrypt.hashSync(req.body.password,10)
     db.save().then(user=>{
         req.session.user=user
-        console.log(req.session.user)
         res.status(200).redirect('http://localhost:3000/index')})
         .catch(err=>{res.status(400).redirect('http://localhost:3000/Register')})
 })
 
 //logout//
-app.post('/logout',(req,res)=>{
-    if(req.session.user)
-        res.clearCookie("user_sid").redirect('http://localhost:3000/Login')
-    else
-        res.redirect('http://localhost:3000/index')
+app.get('/logout',(req,res)=>{
+    if(req.session.user && req.cookies.user_sid)
+       res.clearCookie('user_sid').json('ok')
 })
+
 //Loading food
 app.post('/load_food',(req,res)=>{
     const db=new food_model
@@ -74,6 +80,7 @@ app.post('/load_food',(req,res)=>{
     db.gene=req.body.gene
     db.save().then(user=>{res.status(200).json(user)}).catch(err=>res.status(500).json(err))
 })
+//getting food_item
 app.get('/food',(req,res)=>{
     food_model.find({}).then(user=>{res.status(200).json(user)}).catch(err=>res.json(err))
 })

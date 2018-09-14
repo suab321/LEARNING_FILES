@@ -1,6 +1,7 @@
 import Box from '../box/Box';
 import React,{Component} from 'react';
 import axios from 'axios'
+axios.defaults.withCredentials=true;
 
 class Boxlist extends Component{
     

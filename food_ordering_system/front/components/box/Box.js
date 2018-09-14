@@ -1,9 +1,10 @@
-
+import axios from 'axios'
 const Box=(props)=>{
 
+        const cart_save=()=>{axios.get('http://localhost:3002/cookie')}
 
     return(
-        <div id='main'>
+        <div id='main' onClick={cart_save}>
         <div id='outer'>
         <div id='inner'>
         <img src={props.url} height="200px" width='200px'/>

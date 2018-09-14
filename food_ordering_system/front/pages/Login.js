@@ -1,6 +1,8 @@
 import React,{Component} from 'react'
 import axios from 'axios'
 import Link from 'next/link'
+axios.defaults.withCredentials=true;
+
 class Login extends Component{
     constructor(props){
         super(props)
@@ -26,9 +28,9 @@ class Login extends Component{
 				<label style={{fontSize: "2em"}}>LOGIN</label><br/><br/><br/>
 				<img src="https://s3.amazonaws.com/thumbnails.illustrationsource.com/huge.102.513291.JPG" alt="" width="200px" height="200px"/><br/><br/>
 				<label>Email</label><br/><br/>
-				<input type="email" name="email" required="true"onChange={this.email}/><br/><br/>
+				<input type="email" name="email" required onChange={this.email}/><br/><br/>
 				<label>Password</label><br/><br/>
-				<input type="password" name="password" required="true"onChange={this.password}/><br/><br/>
+				<input type="password" name="password" required onChange={this.password}/><br/><br/>
 				<button style={{cursor: "pointer",fontSize: "1em"}}onClick={this.login}>Login</button><br/><br/>
 				<p style={{fontFamily: "sans-serif"}}>Dont Have an Account!</p>
 				</form>
