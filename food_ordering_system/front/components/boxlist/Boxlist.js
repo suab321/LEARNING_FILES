@@ -28,10 +28,9 @@ class Boxlist extends Component{
                 return item
         })
       
-        const boxe=boxes3.map(item=>{
+        const boxe=this.state.data.map(item=>{
             return(<Box name={item.name} price={item.price} url={item.url} category={item.category}/>)
         })
-        console.log(boxe)
         return(
             <div id='main'>
                 {boxe}

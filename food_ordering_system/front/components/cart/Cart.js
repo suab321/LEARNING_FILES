@@ -10,17 +10,37 @@ class Cart extends Component{
    
     constructor(props){
         super(props)
-        this.state={data:[]}        
-    }
+        this.state={data:[]}
+        this.remove=this.remove.bind(this)
+        this.set=this.set.bind(this)
+}
 
-render(){
-    var box=[]
+remove(id){
+    console.log(id)
+    axios.get('http://localhost:3002/cookie').then(response=>{
+        axios.delete(`http://localhost:3002/cart/remove/${response.data}/${name}`)
+    })
+    this.componentDidMount
+}
+
+set(data){
+    this.setState({data:data})
+}
+
+componentDidMount(name){
     axios.get('http://localhost:3002/cookie').then(response=>{
         axios.get(`http://localhost:3002/cart/cart_food/${response.data}`)
-        .then(response=>{console.log(response.data.map(item=>{
-            return(<Box name={item.name} price={item.price} url={item.url} category={item.category}/>)
-        }))})})
-        console.log(box)
+        .then(response=>{this.set(response.data)})
+    })
+}
+
+render(){
+    const boxes=this.state.data
+    console.log(boxes)
+        const box=boxes.map(item=>{
+            return(<Box id={item._id} remove={this.remove} name={item.name} price={item.price} url={item.url} category={item.category}/>)
+        })
+            console.log(box)
    return(
         <div>
         <div id='main2'>
@@ -28,7 +48,7 @@ render(){
         <div id='remove'><p>ClICK TO REMOVE ITEMS</p></div>
 		<p id='text'>SUAB FOOD CENTER</p>
 	    </div>
-            <div id='main'></div></div>
+            <div id='main'>{box}</div></div>
             <div id='main2'><Link href='/Order_placed'><button >Place Order</button></Link></div>
             
             <style jsx>{`

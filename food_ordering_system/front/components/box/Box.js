@@ -3,6 +3,7 @@ const Box=(props)=>{
 
         const cart_save=()=>{axios.get('http://localhost:3002/cookie').
         then(response=>{
+            console.log('yes')
             axios.put('http://localhost:3002/cart/add',{email:response.data,name:props.name,price:props.price,category:props.category,url:props.url})
         })
     }

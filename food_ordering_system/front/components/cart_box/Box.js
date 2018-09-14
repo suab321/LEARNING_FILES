@@ -1,14 +1,8 @@
 import axios from 'axios'
 const Box=(props)=>{
 
-        const cart_remove=()=>{axios.get('http://localhost:3002/cookie').
-        then(response=>{
-            axios.put('http://localhost:3002/cart/remove',{email:response.data,name:props.name,price:props.price,category:props.category,url:props.url})
-        })
-    }
-
     return(
-        <div id='main' onClick={cart_remove}>
+        <div id='main' onClick={()=>props.remove(props._id)}>
         <div id='outer'>
         <div id='inner'>
         <img src={props.url} height="200px" width='200px'/>

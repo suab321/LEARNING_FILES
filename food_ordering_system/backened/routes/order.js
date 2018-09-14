@@ -12,15 +12,15 @@ router.put('/add',(req,res)=>{
         .then(user=>res.status(200).json(user))
         .catch(err=>res.status(400).json(err))
 })
-router.delete('/remove',(req,res)=>{
-    user_model.findOneAndUpdate({email:req.body.email},{$pull:{'order':{'name':req.body.name}}})
-    .then(user=>res.status(200).json(user))
+router.delete('/remove/:email/:name',(req,res)=>{
+    user_model.findOneAndUpdate({email:req.params.email},{$pull:{'order':{'name':req.params.name}}})
+    .then(user=>res.status(200).json(user[0].order))
     .catch(err=>res.status(400).json(err))
 })
 
 router.get('/cart_food/:email',(req,res)=>{
     user_model.find({email:req.params.email},{order:true}).then(user=>{
-        res.status(200).json(user)
+        res.status(200).json(user[0].order)
     })
 })
 
