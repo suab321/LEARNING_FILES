@@ -47,7 +47,7 @@ class User extends Component{
                     <div id='inner'>
                         <Link href='/cart'><button>My Cart</button></Link><br/><br/><br/>
                        <Link href='/Order'><button>ViewOrders</button></Link><br/><br/><br/>
-                        <button onClick={this.logout}>LogOut</button><br/><br/><br/>
+                        <Link href='/Login'><button onClick={this.logout}>LogOut</button></Link><br/><br/><br/>
                         <button onClick={this.close}>Close</button><br/><br/>
                     </div>
                     </div>

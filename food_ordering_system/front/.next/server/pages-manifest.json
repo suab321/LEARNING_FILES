@@ -1,1 +1,1 @@
-{"/cart":"bundles/pages/cart.js","/Login":"bundles/pages/Login.js","/_app":"bundles/pages/_app.js","/_error":"bundles/pages/_error.js","/_document":"bundles/pages/_document.js"}
+{"/index":"bundles/pages/index.js","/cart":"bundles/pages/cart.js","/Order_placed":"bundles/pages/Order_placed.js","/Order":"bundles/pages/Order.js","/Login":"bundles/pages/Login.js","/_app":"bundles/pages/_app.js","/_error":"bundles/pages/_error.js","/_document":"bundles/pages/_document.js","/":"bundles/pages/index.js"}

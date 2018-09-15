@@ -30,7 +30,9 @@ place_order(){
     axios.get('http://localhost:3002/cookie').then(response=>{
         this.state.data.map(item=>{axios.put(`http://localhost:3002/cart/order_placed/${response.data}`,
         {name:item.name,price:item.price,category:item.category,url:item.url})})
+        axios.delete(`http://localhost:3002/cart/delete_cart/${response.data}`)
     })
+
 }
 
 componentDidMount(){
@@ -56,7 +58,7 @@ render(){
 		<p id='text'>SUAB FOOD CENTER</p>
 	    </div>
             <div id='main'>{box}</div></div>
-            <div id='main2'><button onClick={this.place_order}>Place Order</button></div>
+            <div id='main2'><Link href='/Order_placed'><button onClick={this.place_order}>Place Order</button></Link></div>
             
             <style jsx>{`
             #bar{

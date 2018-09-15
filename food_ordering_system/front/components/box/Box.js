@@ -14,7 +14,7 @@ const Box=(props)=>{
         <img src={props.url} height="200px" width='200px'/>
        <p id='name'>{props.name}</p>
        <p>{props.category}</p>
-        <p>{props.price}</p>
+        <p>${props.price}/-</p>
         </div>
         </div>
         <style jsx>{`
