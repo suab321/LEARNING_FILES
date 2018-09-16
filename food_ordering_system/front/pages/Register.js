@@ -46,7 +46,7 @@ class Register extends Component{
 				<input type="email" name="email" required onChange={this.email}/><br/><br/>
 				<label>Password</label><br/><br/>
 				<input type="password" name="password" required onChange={this.password}/><br/><br/>
-                <label>Password</label><br/><br/>
+                <label>Confirm Password</label><br/><br/>
 				<input type="password" name="cpassword" required onChange={this.cpassword}/><br/><br/>
 				<button style={{cursor: "pointer",fontSize: "1em"}}onClick={this.register}>Register</button><br/><br/>
 				<p style={{fontFamily: "sans-serif"}}>Dont Have an Account!</p>

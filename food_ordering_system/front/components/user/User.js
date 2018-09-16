@@ -10,7 +10,6 @@ class User extends Component{
     this.change=this.change.bind(this)
     this.close=this.close.bind(this)
     this.logout=this.logout.bind(this)
-    this.login=this.login.bind(this)
     }
     change(){
         console.log('yes')
@@ -23,12 +22,8 @@ class User extends Component{
         axios.get('http://localhost:3002/logout').then(response=>{
             if(response.data==='ok'){
                 console.log('ok')
-                axios.get('http://localhost:3002/get_login')
             }
         })
-    }
-    login(){
-        axios.get('http://localhost:3002/get_login')
     }
     componentDidMount(){
         axios.get('http://localhost:3002/cookie').then(

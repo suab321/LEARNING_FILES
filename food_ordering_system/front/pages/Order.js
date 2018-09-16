@@ -35,7 +35,7 @@ class Order extends Component{
             <div id='main'>{boxe}</div></div> 
             <style jsx>{`
             #bar{
-                background-color:rgba(230,0,0,0.1);
+                background-color:rgba(123,100,150,0.8);
                 padding-top: 1px;
                 text-align: center;
                 height: 150px;

@@ -40,7 +40,7 @@ class Boxlist extends Component{
             <div id='main'>
                 {boxe}
                 <style jsx>
-                {`#main{margin-right:1.5em;padding-top:2em;}`}
+                {`#main{margin-right:1.5em;padding-top:2.5em;}`}
                 </style>
             </div>
         

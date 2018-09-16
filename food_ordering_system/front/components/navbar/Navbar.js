@@ -41,7 +41,7 @@ import Side from '../sidebar/Side'
             <div id='main'><Boxlist search={this.state.search} category={this.state.category} cui={this.state.cui} rel={this.state.rel}/></div> 
             <style jsx>{`
             #bar{
-                background-color:rgba(230,0,0,0.1);
+                background-color:rgba(123,100,150,0.8);
                 padding-top: 1px;
                 text-align: center;
                 height: 200px;
