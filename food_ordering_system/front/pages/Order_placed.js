@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import axios from 'axios'
+axios.defaults.withCredentials=true
 const Order_placed=(props)=>{
     return(
         <div>

@@ -48,7 +48,7 @@ router.delete('/delete_cart/:email',(req,res)=>{
             //res.json(user[0].cart)
             user[0].cart.map(item=>{
                 user_model.findOneAndUpdate({email:req.params.email},{$pull:{'cart':{'name':item.name}}})
-                .then(user=>res.redirect('http://localhost:3000/Order_placed'))
+                .then(user=>res.status(200).json(user))
                 .catch(err=>res.json(err))
             })
         }

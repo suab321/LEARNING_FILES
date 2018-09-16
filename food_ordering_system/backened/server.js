@@ -96,5 +96,8 @@ app.post('/load_food',(req,res)=>{
 app.get('/food',(req,res)=>{
     food_model.find({}).then(user=>{res.status(200).json(user)}).catch(err=>res.json(err))
 })
+app.get('/order_placed',(req,res)=>{
+    res.redirect('http://localhost:3000/Order_placed')
+})
 
 app.listen(process.env.PORT||3002)

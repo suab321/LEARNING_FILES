@@ -1,7 +1,7 @@
 module.exports =
 __NEXT_REGISTER_PAGE('/Login', function() {
           var comp =
-      webpackJsonp([7],{
+      webpackJsonp([4],{
 
 /***/ "./node_modules/@babel/runtime/core-js/json/stringify.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -3871,7 +3871,7 @@ function (_Component) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("./pages/Login.js");
@@ -3879,7 +3879,7 @@ module.exports = __webpack_require__("./pages/Login.js");
 
 /***/ })
 
-},[4])
+},[3])
           return { page: comp.default }
         })
       ;

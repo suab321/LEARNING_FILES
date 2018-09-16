@@ -27,7 +27,12 @@ class Boxlist extends Component{
             if(item.gene===this.props.rel)
                 return item
         })
-      
+        if(this.props.search!=''){
+            boxes3=boxes3.filter(item=>{
+                return(item.name.toLowerCase().includes(this.props.search.toLowerCase()))
+            })
+        }
+      console.log(boxes3)
         const boxe=boxes3.map(item=>{
             return(<Box name={item.name} price={item.price} url={item.url} category={item.category}/>)
         })
@@ -35,7 +40,7 @@ class Boxlist extends Component{
             <div id='main'>
                 {boxe}
                 <style jsx>
-                {`#main{margin-right:1.5em;}`}
+                {`#main{margin-right:1.5em;padding-top:2em;}`}
                 </style>
             </div>
         

@@ -67,7 +67,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -83,44 +83,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_next_link__ = __webpack_require__("next/link");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_next_link___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_next_link__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_axios__ = __webpack_require__("axios");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_axios__);
 var _jsxFileName = "/home/abhinav/LEARNING_FILES/food_ordering_system/front/pages/Order_placed.js";
 
 
 
 
+__WEBPACK_IMPORTED_MODULE_3_axios___default.a.defaults.withCredentials = true;
+
 var Order_placed = function Order_placed(props) {
   return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 4
+      lineNumber: 6
     }
   }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 5
+      lineNumber: 7
     }
   }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_next_link___default.a, {
     href: "/index",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 6
+      lineNumber: 8
     }
   }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("button", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 6
+      lineNumber: 8
     }
   }, "Click to go Back!"))), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
     id: "main",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 8
+      lineNumber: 10
     },
     className: "jsx-977295524"
   }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("h1", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 9
+      lineNumber: 11
     },
     className: "jsx-977295524"
   }, "Congrats Order Placed"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("img", {
@@ -129,12 +133,12 @@ var Order_placed = function Order_placed(props) {
     width: "400px",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 10
+      lineNumber: 12
     },
     className: "jsx-977295524"
   }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_0_styled_jsx_style___default.a, {
     styleId: "977295524",
-    css: "#main.jsx-977295524{font-size:3em;text-align:center;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL09yZGVyX3BsYWNlZC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFZUyxBQUV5QixjQUNLLGtCQUNyQiIsImZpbGUiOiJwYWdlcy9PcmRlcl9wbGFjZWQuanMiLCJzb3VyY2VSb290IjoiL2hvbWUvYWJoaW5hdi9MRUFSTklOR19GSUxFUy9mb29kX29yZGVyaW5nX3N5c3RlbS9mcm9udCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBMaW5rIGZyb20gJ25leHQvbGluaydcbmNvbnN0IE9yZGVyX3BsYWNlZD0ocHJvcHMpPT57XG4gICAgcmV0dXJuKFxuICAgICAgICA8ZGl2PlxuICAgICAgICA8ZGl2PlxuICAgICAgICAgICA8TGluayBocmVmPScvaW5kZXgnPjxidXR0b24+Q2xpY2sgdG8gZ28gQmFjayE8L2J1dHRvbj48L0xpbms+XG4gICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPGRpdiBpZD0nbWFpbic+XG4gICAgICAgICAgICA8aDE+Q29uZ3JhdHMgT3JkZXIgUGxhY2VkPC9oMT5cbiAgICAgICAgPGltZyBzcmM9J2h0dHBzOi8vdGhldGVjaHlodWIuY29tL3dwLWNvbnRlbnQvdXBsb2Fkcy8yMDE2LzAxL2VhdGluZy1mb29kLWdpZi5naWYnXG4gICAgICAgIGhlaWdodD0nNDAwcHgnIHdpZHRoPVwiNDAwcHhcIi8+XG4gICAgICAgIDxzdHlsZSBqc3g+XG4gICAgICAgIHtgI21haW57XG4gICAgICAgICAgIGZvbnQtc2l6ZTozZW07XG4gICAgICAgICAgICB0ZXh0LWFsaWduOmNlbnRlcjtcbiAgICAgICAgfWB9XG4gICAgICAgIDwvc3R5bGU+XG4gICAgICAgIDwvZGl2PlxuICAgICAgICA8L2Rpdj5cbiAgICApXG59XG5leHBvcnQgZGVmYXVsdCBPcmRlcl9wbGFjZWQiXX0= */\n/*@ sourceURL=pages/Order_placed.js */"
+    css: "#main.jsx-977295524{font-size:3em;text-align:center;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL09yZGVyX3BsYWNlZC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFjUyxBQUV5QixjQUNLLGtCQUNyQiIsImZpbGUiOiJwYWdlcy9PcmRlcl9wbGFjZWQuanMiLCJzb3VyY2VSb290IjoiL2hvbWUvYWJoaW5hdi9MRUFSTklOR19GSUxFUy9mb29kX29yZGVyaW5nX3N5c3RlbS9mcm9udCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBMaW5rIGZyb20gJ25leHQvbGluaydcbmltcG9ydCBheGlvcyBmcm9tICdheGlvcydcbmF4aW9zLmRlZmF1bHRzLndpdGhDcmVkZW50aWFscz10cnVlXG5jb25zdCBPcmRlcl9wbGFjZWQ9KHByb3BzKT0+e1xuICAgIHJldHVybihcbiAgICAgICAgPGRpdj5cbiAgICAgICAgPGRpdj5cbiAgICAgICAgICAgPExpbmsgaHJlZj0nL2luZGV4Jz48YnV0dG9uPkNsaWNrIHRvIGdvIEJhY2shPC9idXR0b24+PC9MaW5rPlxuICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgIDxkaXYgaWQ9J21haW4nPlxuICAgICAgICAgICAgPGgxPkNvbmdyYXRzIE9yZGVyIFBsYWNlZDwvaDE+XG4gICAgICAgIDxpbWcgc3JjPSdodHRwczovL3RoZXRlY2h5aHViLmNvbS93cC1jb250ZW50L3VwbG9hZHMvMjAxNi8wMS9lYXRpbmctZm9vZC1naWYuZ2lmJ1xuICAgICAgICBoZWlnaHQ9JzQwMHB4JyB3aWR0aD1cIjQwMHB4XCIvPlxuICAgICAgICA8c3R5bGUganN4PlxuICAgICAgICB7YCNtYWlue1xuICAgICAgICAgICBmb250LXNpemU6M2VtO1xuICAgICAgICAgICAgdGV4dC1hbGlnbjpjZW50ZXI7XG4gICAgICAgIH1gfVxuICAgICAgICA8L3N0eWxlPlxuICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9kaXY+XG4gICAgKVxufVxuZXhwb3J0IGRlZmF1bHQgT3JkZXJfcGxhY2VkIl19 */\n/*@ sourceURL=pages/Order_placed.js */"
   })));
 };
 
@@ -142,11 +146,18 @@ var Order_placed = function Order_placed(props) {
 
 /***/ }),
 
-/***/ 8:
+/***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("./pages/Order_placed.js");
 
+
+/***/ }),
+
+/***/ "axios":
+/***/ (function(module, exports) {
+
+module.exports = require("axios");
 
 /***/ }),
 

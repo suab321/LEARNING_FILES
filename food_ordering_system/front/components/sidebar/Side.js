@@ -33,7 +33,7 @@ class Side extends Component{
                 margin-top:1em;
                 padding-left:2px;
                 padding-top:2px;
-                margin-top:2px;
+                margin-top:2em;
                 padding-bottom:2px;
             }
             `}

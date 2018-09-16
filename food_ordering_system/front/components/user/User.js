@@ -55,13 +55,13 @@ class User extends Component{
                     
                 </div>
                 :(
-                    <div>
+                    
                     <div>
                     <div id='main'>{this.props.children}</div>
                     <div id='main'><img id='button' onClick={this.change} src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/220px-User_icon_2.svg.png'height='70px' width='70px'/>
                     </div>
                     </div>
-                    </div>
+                   
                    
                 )
             }
