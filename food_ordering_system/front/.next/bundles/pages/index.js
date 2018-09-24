@@ -1,7 +1,7 @@
 module.exports =
 __NEXT_REGISTER_PAGE('/', function() {
           var comp =
-      webpackJsonp([6],{
+      webpackJsonp([5],{
 
 /***/ "./components/App/App.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -4559,7 +4559,7 @@ function (_Component) {
 
 /***/ }),
 
-/***/ 5:
+/***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("./pages/index.js");
@@ -4567,7 +4567,7 @@ module.exports = __webpack_require__("./pages/index.js");
 
 /***/ })
 
-},[5])
+},[4])
           return { page: comp.default }
         })
       ;

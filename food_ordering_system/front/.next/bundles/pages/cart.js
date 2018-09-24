@@ -4108,7 +4108,7 @@ var cart = function cart() {
 
 /***/ }),
 
-/***/ 6:
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("./pages/cart.js");
@@ -4116,7 +4116,7 @@ module.exports = __webpack_require__("./pages/cart.js");
 
 /***/ })
 
-},[6])
+},[5])
           return { page: comp.default }
         })
       ;
