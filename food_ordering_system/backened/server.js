@@ -57,6 +57,7 @@ app.post('/login',(req,res)=>{
     user_model.findOne({email},{email:true,password:true}).then(user=>{
         if(bcrypt.compareSync(req.body.password,user.password)){
             req.session.user=user
+            console.log(req.session.user)
             res.status(200).redirect('/')
         }
         else
@@ -71,6 +72,7 @@ app.post('/register',(req,res)=>{
     db.password=bcrypt.hashSync(req.body.password||req.body.cpassword,10)
     db.save().then(user=>{
         req.session.user=user
+        console.log(req.session.user)
         res.status(200).redirect('http://localhost:3000/index')})
         .catch(err=>{res.status(400).redirect('http://localhost:3000/Register')})
 })

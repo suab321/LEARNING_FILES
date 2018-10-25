@@ -1,7 +1,7 @@
 module.exports =
 __NEXT_REGISTER_PAGE('/Register', function() {
           var comp =
-      webpackJsonp([6],{
+      webpackJsonp([7],{
 
 /***/ "./node_modules/@babel/runtime/core-js/json/stringify.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -4179,7 +4179,7 @@ function (_Component) {
 
 /***/ }),
 
-/***/ 8:
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("./pages/Register.js");
@@ -4187,7 +4187,7 @@ module.exports = __webpack_require__("./pages/Register.js");
 
 /***/ })
 
-},[8])
+},[6])
           return { page: comp.default }
         })
       ;
