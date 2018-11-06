@@ -1,6 +1,9 @@
 const express=require('express')
 const google_passport_setup=require('./authentication/google/config');
+
 const google_routes=require("./authentication/google/route");
+const login_routes=require("./authentication/email_login/config");
+
 const passport=require('passport');
 const session=require("express-session");
 const app=express();
@@ -12,7 +15,7 @@ app.set('view engine','ejs');
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,Authorization");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Credentials","true")
        next();
@@ -27,6 +30,8 @@ app.use(bodyparser.json());
 app.get('/',(req,res)=>{
     res.render('index');
 })
+
+app.use("/form",login_routes);
 app.use("/google",google_routes);
 
 const tokenverify=(req,res,next)=>{
@@ -58,19 +63,31 @@ app.get('/name',tokenverify,(req,res)=>{
     })
 })
 
-app.get('/user',(req,res)=>{
-    if(req.user===undefined)
-        res.status(400).json("No user")
-    else{
-        console.log(req.user)
+app.get('/google/user',(req,res)=>{
+    if(req.user){
         jwt.sign({user:req.user},"abhi",(err,token)=>{
-        if(err)
-            console.log(err)
-        else
-           res.status(200).json(token)
-    })
-  }
+            if(err)
+                console.log(err)
+            else    
+                res.status(200).json(token);
+        })
+    }
+    else    
+        res.status(400).json("no one");
 })
 
+app.get('/form/user',(req,res)=>{
+    if(req.session.user){
+        jwt.sign({user:req.session.user},"abhi",(err,token)=>{
+            if(err)
+                console.log(err)
+            else
+                res.status(200).json(token);
+        })
+    }
+        
+    else
+        res.status(400).json("no one")
+})
 
 app.listen(3002);
