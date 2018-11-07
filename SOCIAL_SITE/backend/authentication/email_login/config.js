@@ -7,12 +7,6 @@ const mailer=require("nodemailer");
 const session=require("express-session");
 const cookieparser=require("cookie-parser");
 
-router.use(session({
-    key:"user_sid",
-    secret:"abhi",
-    cookie:{maxAge:null}
-}))
-router.use(cookieparser());
 const transport=mailer.createTransport({
     service:"Gmail",
     auth:{

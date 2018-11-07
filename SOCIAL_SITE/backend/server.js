@@ -12,7 +12,10 @@ const jwt=require("jsonwebtoken");
 const bodyparser=require("body-parser");
 
 app.set('view engine','ejs');
-
+app.use(cors({
+    credentials:true,
+    origin:"http://localhost:3000"
+}))
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
@@ -21,18 +24,19 @@ app.use(function(req, res, next) {
        next();
  });
 
-app.use(session({key:"suab321",secret:"abhi",cookie:{maxAge:null}}));
+app.use(session({key:"user_sid",secret:"suab",resave:true,saveUninitialized:true,cookie:{maxAge:null}}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyparser.urlencoded({extended:false}))
+app.use(bodyparser.urlencoded({extended:false}));
 app.use(bodyparser.json());
+app.use("/form",login_routes);
+app.use("/google",google_routes);
 
 app.get('/',(req,res)=>{
     res.render('index');
 })
 
-app.use("/form",login_routes);
-app.use("/google",google_routes);
+
 
 const tokenverify=(req,res,next)=>{
     const bearerHeader=req.headers["authorization"];
@@ -76,7 +80,7 @@ app.get('/google/user',(req,res)=>{
         res.status(400).json("no one");
 })
 
-app.get('/form/user',(req,res)=>{
+app.get('/login/user',(req,res)=>{
     if(req.session.user){
         jwt.sign({user:req.session.user},"abhi",(err,token)=>{
             if(err)
@@ -85,9 +89,6 @@ app.get('/form/user',(req,res)=>{
                 res.status(200).json(token);
         })
     }
-        
-    else
-        res.status(400).json("no one")
 })
 
 app.listen(3002);
