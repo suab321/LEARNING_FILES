@@ -5,8 +5,13 @@ class Google extends React.Component{
         super();
     }
 
+    logout(){
+        console.log("logout");
+        axios.get("http://localhost:3002/form/logout");
+    }
+
     render(){
-            axios.get("http://localhost:3002/google/user",{withCredentials:true}).then(res=>{
+            axios.get("http://localhost:3002/user",{withCredentials:true}).then(res=>{
                 axios.get("http://localhost:3002/name",{headers:{Authorization: `Bearer ${res.data}`}})
                 .then(res=>console.log(res))
             })

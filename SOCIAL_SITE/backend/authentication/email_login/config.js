@@ -66,4 +66,13 @@ router.post("/login",(req,res)=>{
     })
 })
 
+router.get('/logout',(req,res)=>{
+    if(req.session.user && req.cookies.user_sid){
+        res.clearCookie('user_sid').redirect('http://localhost:3000');
+    }
+    else
+        res.json("no one");
+    
+})
+
 module.exports=router;

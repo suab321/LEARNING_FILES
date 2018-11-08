@@ -9,6 +9,7 @@ const session=require("express-session");
 const app=express();
 const cors=require("cors");
 const jwt=require("jsonwebtoken");
+const cookieparser=require('cookie-parser');
 const bodyparser=require("body-parser");
 
 app.set('view engine','ejs');
@@ -23,7 +24,7 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Credentials","true")
        next();
  });
-
+app.use(cookieparser());
 app.use(session({key:"user_sid",secret:"suab",resave:true,saveUninitialized:true,cookie:{maxAge:null}}));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -67,28 +68,28 @@ app.get('/name',tokenverify,(req,res)=>{
     })
 })
 
-app.get('/google/user',(req,res)=>{
-    if(req.user){
-        jwt.sign({user:req.user},"abhi",(err,token)=>{
-            if(err)
-                console.log(err)
-            else    
-                res.status(200).json(token);
-        })
-    }
-    else    
-        res.status(400).json("no one");
-})
-
-app.get('/login/user',(req,res)=>{
-    if(req.session.user){
+app.get("/user",(req,res)=>{
+    if(req.session.user && req.cookies.user_sid){
         jwt.sign({user:req.session.user},"abhi",(err,token)=>{
             if(err)
-                console.log(err)
-            else
+                console.log(err);
+            else{
                 res.status(200).json(token);
+            }
         })
     }
+   else if(req.user){
+        jwt.sign({user:req.user},"abhi",(err,token)=>{
+            if(err)
+                console.log(err);
+            else{
+                res.status(200).json(token);
+            }
+        })
+    }
+    else
+        res.status(403).json("no one");
 })
+
 
 app.listen(3002);
