@@ -70,6 +70,7 @@ app.get('/name',tokenverify,(req,res)=>{
 
 app.get("/user",(req,res)=>{
     if(req.session.user && req.cookies.user_sid){
+        console.log(req.session.user);
         jwt.sign({user:req.session.user},"abhi",(err,token)=>{
             if(err)
                 console.log(err);
@@ -80,6 +81,7 @@ app.get("/user",(req,res)=>{
     }
    else if(req.user){
         jwt.sign({user:req.user},"abhi",(err,token)=>{
+            console.log(req.user);
             if(err)
                 console.log(err);
             else{

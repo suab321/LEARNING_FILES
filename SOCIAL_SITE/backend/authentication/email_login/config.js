@@ -4,8 +4,7 @@ const bcrypt=require('bcrypt');
 const validator=require("email-validator");
 const bodyparser=require('body-parser');
 const mailer=require("nodemailer");
-const session=require("express-session");
-const cookieparser=require("cookie-parser");
+const {user_reg_in_model}=require("../google/db");
 
 const transport=mailer.createTransport({
     service:"Gmail",
@@ -39,21 +38,34 @@ router.post('/register',(req,res)=>{
     if(!validator.validate(req.body.email))
         res.status(403).json("Not a valid email");
     else{
+        perma_login_model.findOne({email:req.body.email},(err,user)=>{
+            if(user)
+                res.json("Already Present")
+        })
         const db=new temp_login_model
+        db.name=req.body.name;
         db.email=req.body.email;
         const hash=bcrypt.hashSync(req.body.password,10);
         db.password=hash;
-        db.save().then(user=>send(user.email)).catch(err=>console.log(err))
+        db.save().then(user=>{send(user.email)})
+        .catch(err=>console.log(err))
     }
 })
 router.get("/verify/:email",(req,res)=>{
     temp_login_model.findOne({email:req.params.email}).then(user=>{
         const db=new perma_login_model
+        db.name=user.name;
         db.email=user.email;
         db.password=user.password
-        db.save().then(user=>req.session.user=user).catch(err=>console.log(err))
+        db.save().then(user=>{req.session.user=user
+        temp_login_model.deleteOne({email:req.params.email}).catch(err=>console.log(err))
+        const db=new user_reg_in_model
+        db.name=user.name;
+        db.save().catch(err=>console.log(err));
+        })
+        .catch(err=>console.log(err))
     }).catch(err=>console.log(err))
-    temp_login_model.deleteOne({email:req.params.email}).catch(err=>console.log(err))
+    
 })
 
 router.post("/login",(req,res)=>{

@@ -1,6 +1,7 @@
 const passport=require('passport')
 const google=require('passport-google-oauth20');
 const {google_model}=require("./db");
+const {user_reg_in_model}=require("./db");
 
 passport.serializeUser((user,done)=>{
     done(null,user.id);
@@ -27,7 +28,11 @@ passport.use(
             data.googleid=profile.id;
             data.save()
             .then(user=>
-                {console.log("new"+user) 
+              {
+                console.log("new"+user)
+                const db=new user_reg_in_model
+                db.name=user.user;
+                db.save().catch(err=>console.log(err));
                 done(null,user)}).catch(err=>console.log(err));
         }
     })
