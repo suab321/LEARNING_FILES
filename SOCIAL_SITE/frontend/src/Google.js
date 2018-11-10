@@ -5,10 +5,6 @@ class Google extends React.Component{
         super();
     }
 
-    logout(){
-        console.log("logout");
-        axios.get("http://localhost:3002/form/logout");
-    }
 
     render(){
             axios.get("http://localhost:3002/user",{withCredentials:true}).then(res=>{
@@ -18,6 +14,10 @@ class Google extends React.Component{
         return(
             <div>
                 <h1>LoggedIn</h1>
+                <form method='POST' action="http://localhost:3002/upload/profile_pic" encType='multipart/form-data'>
+                    <input type='file' name='file'/>
+                    <button type='submit'>Upload</button>
+                </form>
             </div>
         )
     }

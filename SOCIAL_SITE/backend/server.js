@@ -11,6 +11,7 @@ const cors=require("cors");
 const jwt=require("jsonwebtoken");
 const cookieparser=require('cookie-parser');
 const bodyparser=require("body-parser");
+const {upload,users_details_model}=require('./authentication/google/db');
 
 app.set('view engine','ejs');
 app.use(cors({
@@ -51,14 +52,6 @@ const tokenverify=(req,res,next)=>{
     }
 }
 
-app.post("/upload",tokenverify,(req,res)=>{
-    jwt.verify(req.token,"abhi",(err,authdata)=>{
-        if(err)
-            res.status(403).json("no one");
-    })
-    res.status(201).json("posted")
-})
-
 app.get('/name',tokenverify,(req,res)=>{
     jwt.verify(req.token,"abhi",(err,authdata)=>{
         if(err)
@@ -71,7 +64,7 @@ app.get('/name',tokenverify,(req,res)=>{
 app.get("/user",(req,res)=>{
     if(req.session.user && req.cookies.user_sid){
         console.log(req.session.user);
-        jwt.sign({user:req.session.user},"abhi",(err,token)=>{
+        jwt.sign({user:req.session.user.email},"abhi",(err,token)=>{
             if(err)
                 console.log(err);
             else{
@@ -80,6 +73,7 @@ app.get("/user",(req,res)=>{
         })
     }
    else if(req.user){
+       console.log(req.user)
         jwt.sign({user:req.user},"abhi",(err,token)=>{
             console.log(req.user);
             if(err)
@@ -93,5 +87,31 @@ app.get("/user",(req,res)=>{
         res.status(403).json("no one");
 })
 
+app.post("/upload/profile_pic",(req,res)=>{
+    upload(req,res,err=>{
+        if(err)
+            res.status(405).json("failed")
+        else{
+        console.log(req.file)
+        if(req.user){
+        if(users_details_model.findOne({profile_id:req.user._id}).length!=0){
+            users_details_model.findOneAndUpdate({profile_id:req.user._id},{$addToSet:{'profile_pic':req.file_id}})
+            .catch(err=>console.log(err))
+        }
+        else{
+            const db=new users_details_model
+            db.profile_id=req.user._id;
+            db.save().then(user=>{
+                users_details_model.findOneAndUpdate({profile_id:user.profile_id},{$addToSet:{'profile_pic':req.file._id}})
+                .catch(err=>console.log(err));
+            })
+        }
+        res.status(201).json(req.file);
+        }
+        }
+    })
+    
+    
+})
 
 app.listen(3002);

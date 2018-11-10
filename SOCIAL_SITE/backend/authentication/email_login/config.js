@@ -60,7 +60,7 @@ router.get("/verify/:email",(req,res)=>{
         db.save().then(user=>{req.session.user=user
         temp_login_model.deleteOne({email:req.params.email}).catch(err=>console.log(err))
         const db=new user_reg_in_model
-        db.name=user.name;
+        db.proid=user._sid;
         db.save().catch(err=>console.log(err));
         })
         .catch(err=>console.log(err))
