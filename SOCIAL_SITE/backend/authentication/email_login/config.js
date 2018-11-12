@@ -4,7 +4,7 @@ const bcrypt=require('bcrypt');
 const validator=require("email-validator");
 const bodyparser=require('body-parser');
 const mailer=require("nodemailer");
-const {user_reg_in_model}=require("../google/db");
+const {users_reg_in_model}=require("../google/db");
 
 const transport=mailer.createTransport({
     service:"Gmail",
@@ -59,8 +59,8 @@ router.get("/verify/:email",(req,res)=>{
         db.password=user.password
         db.save().then(user=>{req.session.user=user
         temp_login_model.deleteOne({email:req.params.email}).catch(err=>console.log(err))
-        const db=new user_reg_in_model
-        db.proid=user._sid;
+        const db=new users_reg_in_model
+        db.proid=user._id;
         db.save().catch(err=>console.log(err));
         })
         .catch(err=>console.log(err))

@@ -33,22 +33,16 @@ const temp_login_model=mongoose.model("temp_login_via_email",temp_login_schema);
 const perma_login_schema=new mongoose.Schema({email:{type:String,unique:true},password:String,name:{type:String,required:true}})
 const perma_login_model=mongoose.model("perma_login_via_email",perma_login_schema);
 
-const user_reg_in_schema=new mongoose.Schema({proid:String})
-const user_reg_in_model=mongoose.model("user present in website",user_reg_in_schema);
+const friend_scehma=new mongoose.Schema({fr_id:String,chat:[String]})
 
-const users_details_schema=new mongoose.Schema({
-    profile_id:String,
-    post:[String],
-    profile_pic:[String]
-})
-const users_details_model=mongoose.model('users details',users_details_schema);
+const user_reg_in_schema=new mongoose.Schema({proid:String,post:[String],profile_pic:[String],friend:[{fr_id:String,chat:String}]})
+const users_reg_in_model=mongoose.model('users details',user_reg_in_schema);
 
 
 module.exports={
     upload,
-    users_details_model,
     perma_login_model,
     temp_login_model,
     google_model:g_model,
-    user_reg_in_model
+    users_reg_in_model
 }

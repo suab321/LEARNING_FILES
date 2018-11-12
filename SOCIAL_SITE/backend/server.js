@@ -11,7 +11,7 @@ const cors=require("cors");
 const jwt=require("jsonwebtoken");
 const cookieparser=require('cookie-parser');
 const bodyparser=require("body-parser");
-const {upload,users_details_model}=require('./authentication/google/db');
+const {upload,users_reg_in_model}=require('./authentication/google/db');
 
 app.set('view engine','ejs');
 app.use(cors({
@@ -29,7 +29,7 @@ app.use(cookieparser());
 app.use(session({key:"user_sid",secret:"suab",resave:true,saveUninitialized:true,cookie:{maxAge:null}}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyparser.urlencoded({extended:false}));
+app.use(bodyparser.urlencoded({extended:false,limit:'50mb'}));
 app.use(bodyparser.json());
 app.use("/form",login_routes);
 app.use("/google",google_routes);
@@ -43,7 +43,7 @@ app.get('/',(req,res)=>{
 const tokenverify=(req,res,next)=>{
     const bearerHeader=req.headers["authorization"];
     if(typeof bearerHeader==='undefined')
-        res.status(403).json("no user!");
+        res.status(403).json("err verifying token!");
     else{
         const bearer=bearerHeader.split(' ');
         const token=bearer[1];
@@ -88,30 +88,63 @@ app.get("/user",(req,res)=>{
 })
 
 app.post("/upload/profile_pic",(req,res)=>{
+            upload(req,res,err=>{
+                if(err)
+                    res.status(405).json("failed")
+                else{
+                console.log(req.file)
+                if(req.user){
+                users_reg_in_model.findOne({proid:req.user._id}).then(user=>{
+                    if(user.length!=0){
+                        users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'profile_pic':req.file.id}})
+                    .catch(err=>console.log(err))
+                    }
+                    else{
+                        const db=new users_reg_in_model
+                        db.proid=req.user._id;
+                        db.save().then(user=>{
+                            users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'profile_pic':req.file.id}})
+                            .catch(err=>console.log(err));
+                        })
+                    }
+                })
+                res.status(201).json(req.file);
+                }
+                }
+        })
+})
+
+app.post("/upload/post",(req,res)=>{
     upload(req,res,err=>{
         if(err)
             res.status(405).json("failed")
         else{
         console.log(req.file)
         if(req.user){
-        if(users_details_model.findOne({profile_id:req.user._id}).length!=0){
-            users_details_model.findOneAndUpdate({profile_id:req.user._id},{$addToSet:{'profile_pic':req.file_id}})
+        users_reg_in_model.findOne({proid:req.user._id}).then(user=>{
+            if(user.length!=0){
+                users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'post':req.file.id}})
             .catch(err=>console.log(err))
-        }
-        else{
-            const db=new users_details_model
-            db.profile_id=req.user._id;
-            db.save().then(user=>{
-                users_details_model.findOneAndUpdate({profile_id:user.profile_id},{$addToSet:{'profile_pic':req.file._id}})
-                .catch(err=>console.log(err));
-            })
-        }
+            }
+            else{
+                const db=new users_reg_in_model
+                db.proid=req.user._id;
+                db.save().then(user=>{
+                    users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'post':req.file.id}})
+                    .catch(err=>console.log(err));
+                })
+            }
+        })
         res.status(201).json(req.file);
         }
         }
-    })
-    
-    
 })
+})
+
+app.post('/chat',(req,res)=>{
+    users_reg_in_model.findOneAndUpdate({proid:req.body.from},{$addToSet:{'friend':{'fr_id':req.body.to,'chat':req.body.message}}})
+    .then(user=>res.status(201).json(user))
+    .catch(err=>res.json(err))
+ })
 
 app.listen(3002);
