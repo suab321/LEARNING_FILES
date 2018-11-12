@@ -64,7 +64,7 @@ app.get('/name',tokenverify,(req,res)=>{
 app.get("/user",(req,res)=>{
     if(req.session.user && req.cookies.user_sid){
         console.log(req.session.user);
-        jwt.sign({user:req.session.user.email},"abhi",(err,token)=>{
+        jwt.sign({user:req.session.user},"abhi",(err,token)=>{
             if(err)
                 console.log(err);
             else{
@@ -141,10 +141,18 @@ app.post("/upload/post",(req,res)=>{
 })
 })
 
-app.post('/chat',(req,res)=>{
-    users_reg_in_model.findOneAndUpdate({proid:req.body.from},{$addToSet:{'friend':{'fr_id':req.body.to,'chat':req.body.message}}})
+app.post('/add_message',(req,res)=>{
+    if(req.user){
+    users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'friend':{'fr_id':req.body.to,'chat':req.body.message}}})
     .then(user=>res.status(201).json(user))
     .catch(err=>res.json(err))
+    }
+    else if(req.session.user){
+        users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'friend':{'fr_id':req.body.to,'chat':req.body.message}}})
+    .then(user=>res.status(201).json(user))
+    .catch(err=>res.json(err))
+    }
  })
+
 
 app.listen(3002);

@@ -35,7 +35,7 @@ const perma_login_model=mongoose.model("perma_login_via_email",perma_login_schem
 
 const friend_scehma=new mongoose.Schema({fr_id:String,chat:[String]})
 
-const user_reg_in_schema=new mongoose.Schema({proid:String,post:[String],profile_pic:[String],friend:[{fr_id:String,chat:String}]})
+const user_reg_in_schema=new mongoose.Schema({proid:String,post:[String],profile_pic:[String],friend:[{fr_id:String,chat:String}],friend_id:[String]})
 const users_reg_in_model=mongoose.model('users details',user_reg_in_schema);
 
 
