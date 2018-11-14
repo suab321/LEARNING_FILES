@@ -40,14 +40,17 @@ router.post('/register',(req,res)=>{
     else{
         perma_login_model.findOne({email:req.body.email},(err,user)=>{
             if(user)
-                res.json("Already Present")
+                res.status(403).json("Already Present")
         })
         const db=new temp_login_model
         db.name=req.body.name;
         db.email=req.body.email;
+        if(!req.body.password===req.body.cpassword)
+            res.status(403).json('password dont match!');
         const hash=bcrypt.hashSync(req.body.password,10);
         db.password=hash;
-        db.save().then(user=>{send(user.email)})
+        db.save().then(user=>{send(user.email)
+            res.redirect('http://localhost:3000/verification')})
         .catch(err=>console.log(err))
     }
 })
@@ -73,9 +76,9 @@ router.post("/login",(req,res)=>{
     .then(user=>{
        if(bcrypt.compareSync(req.body.password,user.password)){
             req.session.user=user;
-            res.json(req.session.user);
+            res.redirect('http://localhost:3000/google')
        }
-    })
+    }).catch(err=>res.status(403).json("Not a Registered User!"))
 })
 
 router.get('/logout',(req,res)=>{

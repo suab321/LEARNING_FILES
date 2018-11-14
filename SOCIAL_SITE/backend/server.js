@@ -152,6 +152,8 @@ app.post('/add_message',(req,res)=>{
     .then(user=>res.status(201).json(user))
     .catch(err=>res.json(err))
     }
+    else
+        res.status(403).json("no one loggedin")
  })
 
 

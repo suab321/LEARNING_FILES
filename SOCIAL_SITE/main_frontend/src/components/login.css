@@ -1,0 +1,64 @@
+
+.box{
+    border: 1px solid black;
+    width: 30%;
+    text-align: center;
+    margin-left: 31.6%;
+    margin-top:4%;
+    padding-top:6.5px;
+    padding-bottom:8.5px;
+    background-color: rgba(122,45,67,0.7);
+}
+h1{
+    font-size: 3em;
+}
+#sub{
+    font-size:1.4em;
+}
+#email{
+    font-size: 2em;
+}
+#password{
+    font-size: 2em;
+    padding-top:1em;
+}
+input{
+    width: 40%;
+}
+label{
+    padding-right:12%;
+    padding-left: 12%;
+    padding-bottom: 0.5em;
+}
+.outside{
+    text-align: center;
+    margin-right:5.7%;
+}
+@media only screen and (max-width:750px){
+    .box{
+        border: 1px solid black;
+        width: 70%;
+        text-align: center;
+        margin-left: 15%;
+        margin-right:28%;
+        margin-top:7%;
+        padding-top:12px;
+    }
+    h1{
+        font-size: 3em;
+    }
+    #email{
+        font-size: 2.5em;
+    }
+    #password{
+        font-size: 2.5em;
+        
+    }
+    input{
+        width: 90%;
+    }
+    label{
+        padding-right:12%;
+        padding-left: 12%;
+    }
+}
