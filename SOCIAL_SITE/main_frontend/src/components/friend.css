@@ -1,0 +1,17 @@
+.box{
+    border:1px solid black;
+    text-align: center;
+    width: 50%;
+    margin-left: 25%;
+    margin-top:5%;
+    background-color: rgba(122,122,122,0.2);
+    margin-bottom: 2em;
+}
+.inside{
+    border:1px solid black;
+}
+@media only screen and (max-width:1166px){
+    .box{
+        margin-top:18em;
+    }
+}

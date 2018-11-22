@@ -14,7 +14,7 @@ class Google extends React.Component{
         return(
             <div>
                 <h1>LoggedIn</h1>
-                <form method='POST' action="http://localhost:3002/upload/post" encType='multipart/form-data'>
+                <form method='POST' action="http://localhost:3002/upload/profile_pic" encType='multipart/form-data'>
                     <input type='file' name='file'/>
                     <button type='submit'>Upload</button>
                 </form>

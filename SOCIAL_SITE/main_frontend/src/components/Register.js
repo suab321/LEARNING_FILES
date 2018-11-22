@@ -7,30 +7,34 @@ import axios from 'axios';
 class Register extends React.Component{
     constructor(props){
         super(props)
-        this.register=this.register.bind(this)
-        this.email=this.email.bind(this)
-        this.password=this.password.bind(this)
-        this.cpassword=this.cpassword.bind(this)
-        this.state={email:'',password:'',cpassword:'',err:1}
+        this.register=this.register.bind(this);
+        this.email=this.email.bind(this);
+        this.password=this.password.bind(this);
+        this.cpassword=this.cpassword.bind(this);
+        this.name=this.name.bind(this);
+        this.state={email:'',password:'',cpassword:'',err:1,name:''}
     }
     
     register(){
         if(this.state.password===this.state.cpassword)
-            axios.post('http://localhost:3002/form/register',{email:this.state.email,password:this.state.password})
+            axios.post('http://localhost:3002/form/register',{email:this.state.email,password:this.state.password,name:this.state.name})
         else
         this.setState({err:0})
 
 
     }
 
+    name(event){
+        this.setState({name:event.target.value});
+    }
     email(event){
-        this.setState({email:event.target.value})
+        this.setState({email:event.target.value});
     }
     password(event){
-        this.setState({password:event.target.value})
+        this.setState({password:event.target.value});
     }
     cpassword(event){
-        this.setState({cpassword:event.target.value})
+        this.setState({cpassword:event.target.value});
     }
     render(){
         return(
@@ -46,7 +50,7 @@ class Register extends React.Component{
 				<label>Email</label><br/><br/>
 				<input type="email" name="email" required onChange={this.email}/><br/><br/>
                 <label>Username</label><br/><br/>
-				<input type="text" name="name" required onChange={this.email}/><br/><br/>
+				<input type="text" name="name" required onChange={this.name}/><br/><br/>
 				<label>Password</label><br/><br/>
 				<input type="password" name="password" required onChange={this.password}/><br/><br/>
                 <label>Confirm Password</label><br/><br/>
@@ -66,6 +70,8 @@ class Register extends React.Component{
 				<img src="https://s3.amazonaws.com/thumbnails.illustrationsource.com/huge.102.513291.JPG" alt="" width="200px" height="200px"/><br/><br/>
 				<label>Email</label><br/><br/>
 				<input type="email" name="email" required="true"onChange={this.email}/><br/><br/>
+                <label>Username</label><br/><br/>
+				<input type="text" name="name" required onChange={this.name}/><br/><br/>
 				<label>Password</label><br/><br/>
 				<input type="password" name="password" required="true"onChange={this.password}/><br/><br/>
                 <label>Password</label><br/><br/>

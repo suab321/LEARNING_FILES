@@ -61,6 +61,7 @@ app.get('/name',tokenverify,(req,res)=>{
     })
 })
 
+//method to get the current user
 app.get("/user",(req,res)=>{
     if(req.session.user && req.cookies.user_sid){
         console.log(req.session.user);
@@ -87,6 +88,7 @@ app.get("/user",(req,res)=>{
         res.status(403).json("no one");
 })
 
+//method to upload profile photos by users
 app.post("/upload/profile_pic",(req,res)=>{
             upload(req,res,err=>{
                 if(err)
@@ -95,7 +97,7 @@ app.post("/upload/profile_pic",(req,res)=>{
                 console.log(req.file)
                 if(req.user){
                 users_reg_in_model.findOne({proid:req.user._id}).then(user=>{
-                    if(user.length!=0){
+                    if(user.length!==0){
                         users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'profile_pic':req.file.id}})
                     .catch(err=>console.log(err))
                     }
@@ -110,10 +112,30 @@ app.post("/upload/profile_pic",(req,res)=>{
                 })
                 res.status(201).json(req.file);
                 }
+                else if(req.session.user){
+                    users_reg_in_model.findOne({proid:req.session.user._id}).then(user=>{
+                        if(user.length!=0){
+                            users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'profile_pic':req.file.id}})
+                        .catch(err=>console.log(err))
+                        }
+                        else{
+                            const db=new users_reg_in_model
+                            db.proid=req.session.user._id;
+                            db.save().then(user=>{
+                                users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'profile_pic':req.file.id}})
+                                .catch(err=>console.log(err));
+                            })
+                        }
+                    })
+                    res.status(201).json(req.file);
+                }
+                else
+                    res.status(400).json("no one loggedIn");
                 }
         })
 })
 
+//method to post photos by users
 app.post("/upload/post",(req,res)=>{
     upload(req,res,err=>{
         if(err)
@@ -137,10 +159,28 @@ app.post("/upload/post",(req,res)=>{
         })
         res.status(201).json(req.file);
         }
+        else if(req.session.user){
+            users_reg_in_model.findOne({proid:req.session.user._id}).then(user=>{
+                if(user.length!=0){
+                    users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'post':req.file.id}})
+                .catch(err=>console.log(err))
+                }
+                else{
+                    const db=new users_reg_in_model
+                    db.proid=req.user._id;
+                    db.save().then(user=>{
+                        users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'post':req.file.id}})
+                        .catch(err=>console.log(err));
+                    })
+                }
+            })
+            res.status(201).json(req.file);
+        }
         }
 })
 })
 
+//method to for chatting
 app.post('/add_message',(req,res)=>{
     if(req.user){
     users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'friend':{'fr_id':req.body.to,'chat':req.body.message}}})
@@ -156,5 +196,41 @@ app.post('/add_message',(req,res)=>{
         res.status(403).json("no one loggedin")
  })
 
+ //method to add friends
+ app.post('/add_friend',(req,res)=>{
+     if(req.user){
+     users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'friend':req.body.friend_id}})
+     .then(user=>res.status(200).json(user))
+     .catch(err=>res.status(400).json(err))
+     }
+     else if(req.session.user){
+        users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'friend':req.body.friend_id}})
+        .then(user=>res.status(200).json(user))
+        .catch(err=>res.status(400).json(err))
+     }
+     else 
+        res.status(400).json("no one LoggedIn");
+ })
+//method to get all users
+app.get('/get_all_user',(req,res)=>{
+    if(req.user){
+    users_reg_in_model.find().then(user=>{
+        const main_users=user.filter(user=>{
+            if(!user.proid===req.user._id)
+                return user;
+        })
+        res.status(200).json(main_users);
+    })
+}
+else if(req.session.user){
+    users_reg_in_model.find().then(user=>{
+        const main_users=user.filter(user=>{
+            if(!user.proid===req.session.user._id)
+                return user;
+        })
+        res.status(200).json(main_users);
+    })
+}
+})
 
 app.listen(3002);

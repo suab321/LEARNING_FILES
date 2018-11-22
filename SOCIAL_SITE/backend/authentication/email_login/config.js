@@ -33,7 +33,7 @@ const send=(email)=>{
     })
 }
 
-
+//registering users
 router.post('/register',(req,res)=>{
     if(!validator.validate(req.body.email))
         res.status(403).json("Not a valid email");
@@ -71,6 +71,7 @@ router.get("/verify/:email",(req,res)=>{
     
 })
 
+//logging in users
 router.post("/login",(req,res)=>{
     perma_login_model.findOne({email:req.body.email})
     .then(user=>{
