@@ -30,7 +30,7 @@ class Login extends React.Component{
                 <div style={{textAlign:"center"}}>
 				<div class='form'>
 				<form method="POST" action='http://localhost:3002/form/login'>
-				<label style={{fontSize: "2em"}}>REGISTER</label><br/><br/><br/>
+				<label style={{fontSize: "2em"}}>LOGIN</label><br/><br/><br/>
 				<img src="https://s3.amazonaws.com/thumbnails.illustrationsource.com/huge.102.513291.JPG" alt="" width="200px" height="200px"/><br/><br/>
 				<label>Email</label><br/><br/>
 				<input type="email" name="email" required onChange={this.email}/><br/><br/>

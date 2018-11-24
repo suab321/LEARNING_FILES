@@ -8,7 +8,7 @@ router.get('/login',
     })
 )
 router.get('/google/redirect',passport.authenticate('google'),(req,res)=>{
-    res.redirect("http://localhost:3000/google");
+    res.redirect("http://localhost:3000/all_user");
 })
 
 module.exports=router;

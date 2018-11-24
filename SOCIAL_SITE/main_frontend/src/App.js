@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as  Router,Link} from 'react-router-dom';
+import {BrowserRouter as  Router} from 'react-router-dom';
 import Route from 'react-router/Route';
 import Login from './components/Login';
 import Register from './components/Register'
@@ -11,6 +11,7 @@ import {FormGroup} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 import {NavItem} from 'react-bootstrap';
 import Friend_list from './components/Friend_list';
+import Profile_page from './components/Profile_page';
 import './app.css';
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
           <Route path='/register' component={Register}/>
           <Route path='/verification' component={Verification}/>
           <Route path='/search_friend' component={Verification}/>
+          <Route path='/profile/:name' component={Profile_page}/>
         </switch>
         <Navbar inverse collapseOnSelect fluid fixedTop>
   <Navbar.Header>

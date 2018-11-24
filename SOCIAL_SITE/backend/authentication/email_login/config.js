@@ -77,7 +77,7 @@ router.post("/login",(req,res)=>{
     .then(user=>{
        if(bcrypt.compareSync(req.body.password,user.password)){
             req.session.user=user;
-            res.redirect('http://localhost:3000/google')
+            res.redirect('http://localhost:3000/all_user')
        }
     }).catch(err=>res.status(403).json("Not a Registered User!"))
 })

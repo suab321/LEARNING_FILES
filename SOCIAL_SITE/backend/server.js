@@ -11,12 +11,12 @@ const cors=require("cors");
 const jwt=require("jsonwebtoken");
 const cookieparser=require('cookie-parser');
 const bodyparser=require("body-parser");
-const {upload,users_reg_in_model}=require('./authentication/google/db');
+const {upload,users_reg_in_model,perma_login_model,google_model,router_image}=require('./authentication/google/db');
 
 app.set('view engine','ejs');
 app.use(cors({
     credentials:true,
-    origin:"http://localhost:3000"
+
 }))
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -33,6 +33,7 @@ app.use(bodyparser.urlencoded({extended:false,limit:'50mb'}));
 app.use(bodyparser.json());
 app.use("/form",login_routes);
 app.use("/google",google_routes);
+app.use('/image',router_image);
 
 app.get('/',(req,res)=>{
     res.render('index');
@@ -98,14 +99,14 @@ app.post("/upload/profile_pic",(req,res)=>{
                 if(req.user){
                 users_reg_in_model.findOne({proid:req.user._id}).then(user=>{
                     if(user.length!==0){
-                        users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'profile_pic':req.file.id}})
+                        users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'profile_pic':req.file.filename}})
                     .catch(err=>console.log(err))
                     }
                     else{
                         const db=new users_reg_in_model
                         db.proid=req.user._id;
                         db.save().then(user=>{
-                            users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'profile_pic':req.file.id}})
+                            users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'profile_pic':req.file.filename}})
                             .catch(err=>console.log(err));
                         })
                     }
@@ -115,14 +116,14 @@ app.post("/upload/profile_pic",(req,res)=>{
                 else if(req.session.user){
                     users_reg_in_model.findOne({proid:req.session.user._id}).then(user=>{
                         if(user.length!=0){
-                            users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'profile_pic':req.file.id}})
+                            users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'profile_pic':req.file.filenmae}})
                         .catch(err=>console.log(err))
                         }
                         else{
                             const db=new users_reg_in_model
                             db.proid=req.session.user._id;
                             db.save().then(user=>{
-                                users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'profile_pic':req.file.id}})
+                                users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'profile_pic':req.file.filename}})
                                 .catch(err=>console.log(err));
                             })
                         }
@@ -145,14 +146,14 @@ app.post("/upload/post",(req,res)=>{
         if(req.user){
         users_reg_in_model.findOne({proid:req.user._id}).then(user=>{
             if(user.length!=0){
-                users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'post':req.file.id}})
+                users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'post':req.file.filename}})
             .catch(err=>console.log(err))
             }
             else{
                 const db=new users_reg_in_model
                 db.proid=req.user._id;
                 db.save().then(user=>{
-                    users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'post':req.file.id}})
+                    users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'post':req.file.filename}})
                     .catch(err=>console.log(err));
                 })
             }
@@ -162,14 +163,14 @@ app.post("/upload/post",(req,res)=>{
         else if(req.session.user){
             users_reg_in_model.findOne({proid:req.session.user._id}).then(user=>{
                 if(user.length!=0){
-                    users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'post':req.file.id}})
+                    users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'post':req.file.filename}})
                 .catch(err=>console.log(err))
                 }
                 else{
                     const db=new users_reg_in_model
                     db.proid=req.user._id;
                     db.save().then(user=>{
-                        users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'post':req.file.id}})
+                        users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'post':req.file.filename}})
                         .catch(err=>console.log(err));
                     })
                 }
@@ -211,12 +212,13 @@ app.post('/add_message',(req,res)=>{
      else 
         res.status(400).json("no one LoggedIn");
  })
+
 //method to get all users
 app.get('/get_all_user',(req,res)=>{
     if(req.user){
     users_reg_in_model.find().then(user=>{
         const main_users=user.filter(user=>{
-            if(!user.proid===req.user._id)
+            if(user.proid!=req.user._id)
                 return user;
         })
         res.status(200).json(main_users);
@@ -225,12 +227,43 @@ app.get('/get_all_user',(req,res)=>{
 else if(req.session.user){
     users_reg_in_model.find().then(user=>{
         const main_users=user.filter(user=>{
-            if(!user.proid===req.session.user._id)
+            if(user.proid!=req.session.user._id)
                 return user;
         })
         res.status(200).json(main_users);
     })
 }
+})
+
+//method to get name of users based on their profile_id
+app.get('/get_name/:id',(req,res)=>{
+    perma_login_model.findById({_id:req.params.id}).then(user=>{
+       if(user)
+            res.status(200).json(user.name);
+        else{
+            google_model.findById({_id:req.params.id}).then(user=>{
+                res.status(200).json(user.user)
+            })
+        }
+        
+    })
+})
+//method to get users profile
+app.get('/get_profile/:id',(req,res)=>{
+    users_reg_in_model.findOne({proid:req.params.id}).then(user=>{
+        perma_login_model.findById({_id:req.params.id}).then(user=>{
+            if(user)
+                res.redirect(`http://localhost:3000/profile/${user.name}`)
+            else{
+                google_model.findById({_id:req.params.id}).then(user=>{
+                    if(user)
+                        res.redirect(`http://localhost:3000/profile/abhinav`)
+                    else
+                        res.redirect('http://localhost:3000')
+                })
+            }
+        }).catch(err=>console.log(err))
+    }).catch(err=>console.log(err))
 })
 
 app.listen(3002);

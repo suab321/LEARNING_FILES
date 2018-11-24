@@ -7,11 +7,28 @@
     background-color: rgba(122,122,122,0.2);
     margin-bottom: 2em;
 }
+.name{
+    cursor: pointer;
+}
+#profile{
+    border-radius: 5em;
+    border-color: greenyellow;
+    padding-top: 1em;
+    width: 20%;
+    height:20%;
+}
 .inside{
     border:1px solid black;
 }
 @media only screen and (max-width:1166px){
     .box{
         margin-top:18em;
+    }
+    img{
+        border-radius: 5em;
+        border-color: greenyellow;
+        padding-top: 1em;
+        width: 40%;
+        height:29%;
     }
 }
