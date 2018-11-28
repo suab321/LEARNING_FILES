@@ -16,7 +16,6 @@ const {upload,users_reg_in_model,perma_login_model,google_model,router_image}=re
 app.set('view engine','ejs');
 app.use(cors({
     credentials:true,
-
 }))
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -253,11 +252,11 @@ app.get('/get_profile/:id',(req,res)=>{
     users_reg_in_model.findOne({proid:req.params.id}).then(user=>{
         perma_login_model.findById({_id:req.params.id}).then(user=>{
             if(user)
-                res.redirect(`http://localhost:3000/profile/${user.name}`)
+            res.status(200).json(user.name)
             else{
                 google_model.findById({_id:req.params.id}).then(user=>{
                     if(user)
-                        res.redirect(`http://localhost:3000/profile/abhinav`)
+                        res.status(200).json(user.user)
                     else
                         res.redirect('http://localhost:3000')
                 })
