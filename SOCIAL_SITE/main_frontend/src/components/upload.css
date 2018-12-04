@@ -1,0 +1,18 @@
+#file_main{
+    border:1px solid black;
+    text-align: center;
+    margin-left: 42%;
+    margin-top:12%;
+    width:20%;
+    padding-top: 1em;
+    padding-bottom: 2em;
+}
+#image_file{
+    font-size: small;
+    margin-top:15%;
+    margin-left:29%;
+    margin-bottom: 2%;
+}
+#img_file{
+    padding-bottom: 1em;
+}

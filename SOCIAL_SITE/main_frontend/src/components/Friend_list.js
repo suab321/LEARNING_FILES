@@ -8,18 +8,20 @@ import './friend.css';
 class Friend_list extends React.Component{
     constructor(props){
         super(props);
-        this.state={data:[],profile_name:0}
-        axios.get('http://localhost:3002/get_all_user',{withCredentials:true}).then(res=>{
-           this.setState({data:res.data})
-           this.profile=this.profile.bind(this);
+        this.state={data:[],profile_name:'',profile_image_id:''}
+        axios.get('http://localhost:3002/user',{withCredentials:true}).then(res=>{
+            if(res.status===200){
+                axios.get('http://localhost:3002/get_all_user',{headers:{Authorization: `Bearer ${res.data}`}}).then(res=>{
+                this.setState({data:res.data})
+            })
+          }
        })
+       this.profile=this.profile.bind(this);
     }
     profile(id){
-        console.log(id);
-        axios.get(`http://localhost:3002/get_profile/${id}`,{headers: {AccessControlAllowOrigin: 'http://localhost:3000'}})
-        .then(res=>{
-            this.setState({profile_name:res.data});
-        })
+        console.log(this.state.profile_image_id)
+        axios.get(`http://localhost:3002/get_name/${id.id}`)
+        .then(res=>{this.setState({profile_name:res.data,profile_image_id:id.profile_pic_id})})
     }
     render(){
        const display=this.state.data.map(user=>{
@@ -32,7 +34,7 @@ class Friend_list extends React.Component{
        }
        else{
            return(
-           <Redirect to={`/profile/${this.state.profile_name}`} />
+           <Redirect to={`/profile/${this.state.profile_name}/${this.state.profile_image_id}`} />
            )
        }
     }

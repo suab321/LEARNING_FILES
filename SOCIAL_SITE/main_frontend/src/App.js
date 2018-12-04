@@ -11,10 +11,19 @@ import {FormGroup} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 import {NavItem} from 'react-bootstrap';
 import Friend_list from './components/Friend_list';
-import Profile_page from './components/Profile_page';
+import Profile_page_other from './components/Profile_page_other';
+import Upload_page from './components/Upload_page';
 import './app.css';
+import io from 'socket.io-client';
+
+
 
 class App extends Component {
+  constructor(){
+    super();
+    var socket=io('http://localhost:3002');
+    socket.emit('chat',{for:'hi'});
+  }
   click(){
     console.log("click");
   }
@@ -22,6 +31,7 @@ class App extends Component {
     console.log(e.target.value);
   }
   render() {
+
     return (
       <Router>
         <div>
@@ -30,8 +40,8 @@ class App extends Component {
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
           <Route path='/verification' component={Verification}/>
-          <Route path='/search_friend' component={Verification}/>
-          <Route path='/profile/:name' component={Profile_page}/>
+          <Route path='/profile/:name/:profile_image' component={Profile_page_other}/>
+          <Route path='/upload' component={Upload_page}/>
         </switch>
         <Navbar inverse collapseOnSelect fluid fixedTop>
   <Navbar.Header>
@@ -47,7 +57,7 @@ class App extends Component {
       <Button type="submit" onClick={this.click}>Submit</Button>
     </Navbar.Form>
     <Nav pullLeft>
-    <NavItem href='/search_friend'bsStyle={{fontSize:'2em'}}>Users</NavItem>
+    <NavItem href='/all_user'bsStyle={{fontSize:'2em'}}>Users</NavItem>
     </Nav>
    
   <Navbar.Collapse>

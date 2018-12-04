@@ -40,7 +40,7 @@ const perma_login_model=mongoose.model("perma_login_via_email",perma_login_schem
 const user_reg_in_schema=new mongoose.Schema({proid:String,post:[String],profile_pic:[String],friend:[{fr_id:String,chat:String}],friend_id:[String]})
 const users_reg_in_model=mongoose.model('users details',user_reg_in_schema);
 
-//method to retrive proifle image of users
+//method to retrive proifle image of other users
 router.get('/get_profile_image/:filename',(req,res)=>{
     gfs.files.findOne({filename:req.params.filename},(err,file)=>{
         if(file){
@@ -48,12 +48,48 @@ router.get('/get_profile_image/:filename',(req,res)=>{
             readStream.pipe(res);
     }
         else{
-           res.status(403).json("no file with this name")
+          res.status(403).json('no image');
         }
     })
 })
 router.get('/all_image',(req,res)=>{
     gfs.files.find({}).toArray().then(files=>res.json(files)).catch(err=>res.json(err))
+})
+
+const tokenverify=(req,res,next)=>{
+    const bearerHeader=req.headers['authorization'];
+    if(typeof bearerHeader==='undefined')
+        res.status(403).json('no one');
+    req.token=bearerHeader.split(' ')[1];
+    next();
+}
+
+//to get profile image of user
+router.get('/profile_image',(req,res)=>{
+    if(req.session.user){
+    users_reg_in_model.findOne({proid:req.session.user._id}).then(user=>{
+        const profile_image=user.profile_pic[user.profile_pic.length-1]
+        gfs.files.findOne({filename:profile_image},(err,file)=>{
+            if(file){
+                const readStream=gfs.createReadStream(file.filename)
+                readStream.pipe(res);
+            }
+
+        })
+    })
+    }
+    else if(req.user){
+        users_reg_in_model.findOne({proid:req.user._id}).then(user=>{
+            const profile_image=user.profile_pic[user.profile_pic.length-1]
+            gfs.files.findOne({filename:profile_image},(err,file)=>{
+                if(file){
+                    const readStream=gfs.createReadStream(file.filename)
+                    readStream.pipe(res);
+                }
+
+            })
+        })
+    }
 })
 module.exports={
     router_image:router,

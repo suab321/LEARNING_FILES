@@ -1,12 +1,11 @@
-const express=require('express')
+const app=require('express')();
 const google_passport_setup=require('./authentication/google/config');
 
 const google_routes=require("./authentication/google/route");
 const login_routes=require("./authentication/email_login/config");
-
+const io=require('socket.io');
 const passport=require('passport');
 const session=require("express-session");
-const app=express();
 const cors=require("cors");
 const jwt=require("jsonwebtoken");
 const cookieparser=require('cookie-parser');
@@ -42,6 +41,7 @@ app.get('/',(req,res)=>{
 
 const tokenverify=(req,res,next)=>{
     const bearerHeader=req.headers["authorization"];
+    console.log(req.headers)
     if(typeof bearerHeader==='undefined')
         res.status(403).json("err verifying token!");
     else{
@@ -63,7 +63,7 @@ app.get('/name',tokenverify,(req,res)=>{
 
 //method to get the current user
 app.get("/user",(req,res)=>{
-    if(req.session.user && req.cookies.user_sid){
+    if(req.session.user){
         console.log(req.session.user);
         jwt.sign({user:req.session.user},"abhi",(err,token)=>{
             if(err)
@@ -89,16 +89,20 @@ app.get("/user",(req,res)=>{
 })
 
 //method to upload profile photos by users
-app.post("/upload/profile_pic",(req,res)=>{
-            upload(req,res,err=>{
+app.post("/upload/profile_pic",tokenverify,(req,res)=>{
+            jwt.verify(req.token,'abhi',(err,authdata)=>{
                 if(err)
-                    res.status(405).json("failed")
+                    res.status(403).json("err verifying token!");
+            upload(req,res,err=>{
+                if(err){
+                    console.log(err)
+                    res.status(405).json('token verification error')
+                }
                 else{
-                console.log(req.file)
-                if(req.user){
-                users_reg_in_model.findOne({proid:req.user._id}).then(user=>{
+                    console.log(req.file)
+                users_reg_in_model.findOne({proid:authdata.user._id}).then(user=>{
                     if(user.length!==0){
-                        users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'profile_pic':req.file.filename}})
+                        users_reg_in_model.findOneAndUpdate({proid:authdata.user._id},{$addToSet:{'profile_pic':req.file.filename}})
                     .catch(err=>console.log(err))
                     }
                     else{
@@ -111,28 +115,9 @@ app.post("/upload/profile_pic",(req,res)=>{
                     }
                 })
                 res.status(201).json(req.file);
-                }
-                else if(req.session.user){
-                    users_reg_in_model.findOne({proid:req.session.user._id}).then(user=>{
-                        if(user.length!=0){
-                            users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'profile_pic':req.file.filenmae}})
-                        .catch(err=>console.log(err))
-                        }
-                        else{
-                            const db=new users_reg_in_model
-                            db.proid=req.session.user._id;
-                            db.save().then(user=>{
-                                users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'profile_pic':req.file.filename}})
-                                .catch(err=>console.log(err));
-                            })
-                        }
-                    })
-                    res.status(201).json(req.file);
-                }
-                else
-                    res.status(400).json("no one loggedIn");
-                }
+            }
         })
+    })
 })
 
 //method to post photos by users
@@ -181,57 +166,43 @@ app.post("/upload/post",(req,res)=>{
 })
 
 //method to for chatting
-app.post('/add_message',(req,res)=>{
-    if(req.user){
-    users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'friend':{'fr_id':req.body.to,'chat':req.body.message}}})
-    .then(user=>res.status(201).json(user))
-    .catch(err=>res.json(err))
-    }
-    else if(req.session.user){
-        users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'friend':{'fr_id':req.body.to,'chat':req.body.message}}})
-    .then(user=>res.status(201).json(user))
-    .catch(err=>res.json(err))
-    }
-    else
-        res.status(403).json("no one loggedin")
+app.post('/add_message',tokenverify,(req,res)=>{
+    jwt.verify(req.token,'abhi',(err,authdata)=>{
+        if(err)
+            res.status(405).json('token verification error')
+        users_reg_in_model.findOneAndUpdate({proid:authdata.user._id},{$addToSet:{'friend':{'fr_id':req.body.to,'chat':req.body.message}}})
+        .then(user=>res.status(201).json(user))
+        .catch(err=>res.json(err))
+    })
  })
 
  //method to add friends
- app.post('/add_friend',(req,res)=>{
-     if(req.user){
-     users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'friend':req.body.friend_id}})
+ app.post('/add_friend',tokenverify,(req,res)=>{
+    jwt.verify(req.token,'abhi',(err,authdata)=>{
+        if(err)
+            res.status(405).json('Error in token verification');
+     users_reg_in_model.findOneAndUpdate({proid:authdata.user._id},{$addToSet:{'friend':req.body.friend_id}})
      .then(user=>res.status(200).json(user))
      .catch(err=>res.status(400).json(err))
-     }
-     else if(req.session.user){
-        users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'friend':req.body.friend_id}})
-        .then(user=>res.status(200).json(user))
-        .catch(err=>res.status(400).json(err))
-     }
-     else 
-        res.status(400).json("no one LoggedIn");
+    })
+     
  })
 
 //method to get all users
-app.get('/get_all_user',(req,res)=>{
-    if(req.user){
-    users_reg_in_model.find().then(user=>{
-        const main_users=user.filter(user=>{
-            if(user.proid!=req.user._id)
+app.get('/get_all_user',tokenverify,(req,res)=>{
+    jwt.verify(req.token,'abhi',(err,authdata)=>{
+        if(err)
+            res.status(403).json('no one')
+        else{
+            users_reg_in_model.find().then(user=>{
+            const main_users=user.filter(user=>{
+            if(user.proid!=authdata.user._id)
                 return user;
+            })
+            res.status(200).json(main_users);
         })
-        res.status(200).json(main_users);
-    })
-}
-else if(req.session.user){
-    users_reg_in_model.find().then(user=>{
-        const main_users=user.filter(user=>{
-            if(user.proid!=req.session.user._id)
-                return user;
-        })
-        res.status(200).json(main_users);
-    })
-}
+      }
+   })
 })
 
 //method to get name of users based on their profile_id
@@ -265,4 +236,26 @@ app.get('/get_profile/:id',(req,res)=>{
     }).catch(err=>console.log(err))
 })
 
-app.listen(3002);
+//loggingOut users
+app.get('/logout',(req,res)=>{
+    if(req.user){
+        req.logout();
+        res.redirect('https://localhost:3000')
+    }
+    else if(req.session.user){
+        if(req.session.user && req.cookies.user_sid){
+            res.clearCookie('user_sid')/json('ok');
+        }
+    }
+})
+const server=app.listen(process.env.PORT||3002);
+//socket
+var conn=io(server);
+conn.on('connection',(socket)=>{
+    console.log("socket");
+    socket.on('chat',(msg)=>{
+        console.log(msg);
+    })
+})
+
+

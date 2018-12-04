@@ -16,7 +16,7 @@ class Form extends React.Component{
     
     render(){
 
-    axios.post("http://localhost:3002/form/login",{email:"test29051571833@gmail.com",password:"123"},{withCredentials:true}).then(res=>{
+    axios.post("http://localhost:3002/form/login",{email:"test29051571833@gmail.com",password:"123"}).then(res=>{
         if(res.status===200){
             axios.get("http://localhost:3002/user",{withCredentials:true}).then(res=>{
                 axios.get("http://localhost:3002/name",{headers:{Authorization: `Bearer ${res.data}`}}).then(res=>{

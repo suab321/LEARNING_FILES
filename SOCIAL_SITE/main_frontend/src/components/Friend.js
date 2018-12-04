@@ -11,14 +11,13 @@ class Friend extends React.Component{
         })
     }
     render(){
-        
         return(
             <div className='inside'>
-            <img id='profile' src={`http://localhost:3002/image/get_profile_image/${this.props.profile_pic_id}`}/>
-            <h3 onClick={()=>this.props.profile(this.props.id)} className='name'>{this.state.name}</h3>
+            <img id='profile' src={`http://localhost:3002/image/get_profile_image/${this.props.profile_pic_id}`}_/>
+            <h3 onClick={()=>this.props.profile(this.props)} className='name'>{this.state.name}</h3>
             <br/>
             </div>
         )
-    }
+        }
 }
 export default Friend;

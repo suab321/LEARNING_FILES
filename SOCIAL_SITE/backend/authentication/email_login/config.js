@@ -29,7 +29,7 @@ const send=(email)=>{
         if(err)
             console.log(err)
         else
-            console.log(res);
+            res.json('ok');
     })
 }
 
@@ -56,19 +56,20 @@ router.post('/register',(req,res)=>{
 })
 router.get("/verify/:email",(req,res)=>{
     temp_login_model.findOne({email:req.params.email}).then(user=>{
-        const db=new perma_login_model
-        db.name=user.name;
-        db.email=user.email;
-        db.password=user.password
-        db.save().then(user=>{req.session.user=user
-        temp_login_model.deleteOne({email:req.params.email}).catch(err=>console.log(err))
-        const db=new users_reg_in_model
-        db.proid=user._id;
-        db.save().catch(err=>console.log(err));
+        const data=new perma_login_model
+        data.email=user.email
+        data.password=user.password
+        data.name=user.name
+        data.save()
+        .then(user=>{
+            const data=new users_reg_in_model
+            data.proid=user._id
+            data.save().catch(err=>console.log(err))
+            temp_login_model.findOneAndDelete({email:req.params.email}).then(user=>{res.redirect('https://localhost:3000/all_user')})
+            .catch(err=>console.log(err))
         })
         .catch(err=>console.log(err))
-    }).catch(err=>console.log(err))
-    
+    })
 })
 
 //logging in users
@@ -77,18 +78,13 @@ router.post("/login",(req,res)=>{
     .then(user=>{
        if(bcrypt.compareSync(req.body.password,user.password)){
             req.session.user=user;
-            res.redirect('http://localhost:3000/all_user')
+            res.redirect('http://localhost:3000')
        }
     }).catch(err=>res.status(403).json("Not a Registered User!"))
 })
-
 router.get('/logout',(req,res)=>{
-    if(req.session.user && req.cookies.user_sid){
-        res.clearCookie('user_sid').redirect('http://localhost:3000');
-    }
-    else
-        res.json("no one");
-    
+    res.clearCookie('user_sid').redirect('http://localhost:3000')
 })
+
 
 module.exports=router;

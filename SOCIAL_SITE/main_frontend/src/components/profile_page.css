@@ -1,0 +1,9 @@
+#profile_box{
+    border:1px solid black;
+    width:40%;
+    height:20em;
+    margin-left:20%;
+    text-align: center;
+    margin-top:2em;
+    padding-top:1em;
+}
