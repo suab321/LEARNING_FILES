@@ -10,11 +10,15 @@ import {FormControl} from 'react-bootstrap';
 import {FormGroup} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 import {NavItem} from 'react-bootstrap';
+import {NavDropdown} from 'react-bootstrap';
+import {MenuItem} from 'react-bootstrap';
 import Friend_list from './components/Friend_list';
 import Profile_page_other from './components/Profile_page_other';
 import Upload_page from './components/Upload_page';
 import './app.css';
 import io from 'socket.io-client';
+import Profile_page_user from './components/Profile_page_user';
+import Logout from './components/Logout';
 
 
 
@@ -42,8 +46,10 @@ class App extends Component {
           <Route path='/verification' component={Verification}/>
           <Route path='/profile/:name/:profile_image' component={Profile_page_other}/>
           <Route path='/upload' component={Upload_page}/>
+          <Route path='/profile_page' component={Profile_page_user}/>
+          <Route path='/logout' component={Logout}/>
         </switch>
-        <Navbar inverse collapseOnSelect fluid fixedTop>
+        <Navbar inverse  fluid fixedTop>
   <Navbar.Header>
     <Navbar.Brand>
       <a href="#brand">React-Bootstrap</a>
@@ -58,15 +64,14 @@ class App extends Component {
     </Navbar.Form>
     <Nav pullLeft>
     <NavItem href='/all_user'bsStyle={{fontSize:'2em'}}>Users</NavItem>
+    <NavItem href='/profile_page'bsStyle={{fontSize:'2em'}}>profile</NavItem>
     </Nav>
-   
-  <Navbar.Collapse>
-    <Nav pullRight>
-    <Button bsStyle="primary" bsSize='large' active onClick={this.click}>
-      LogOut
-  </Button>
-    </Nav>
-  </Navbar.Collapse>
+   <Nav pullRight>
+   <NavDropdown eventKey={3} title="" id="basic-nav-dropdown">
+      <MenuItem eventKey={3.1} href="/logout">Logout</MenuItem>
+      <MenuItem eventKey={3.2}>Settings</MenuItem>
+    </NavDropdown>
+   </Nav>
 </Navbar>
         </div>
       </Router>

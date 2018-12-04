@@ -41,7 +41,6 @@ app.get('/',(req,res)=>{
 
 const tokenverify=(req,res,next)=>{
     const bearerHeader=req.headers["authorization"];
-    console.log(req.headers)
     if(typeof bearerHeader==='undefined')
         res.status(403).json("err verifying token!");
     else{
@@ -160,9 +159,9 @@ app.post("/upload/post",(req,res)=>{
                 }
             })
             res.status(201).json(req.file);
+           }
         }
-        }
-})
+    })
 })
 
 //method to for chatting
@@ -240,13 +239,13 @@ app.get('/get_profile/:id',(req,res)=>{
 app.get('/logout',(req,res)=>{
     if(req.user){
         req.logout();
-        res.redirect('https://localhost:3000')
+        res.status(200).json('loggedOut')
     }
     else if(req.session.user){
-        if(req.session.user && req.cookies.user_sid){
-            res.clearCookie('user_sid')/json('ok');
-        }
+            res.clearCookie('user_sid').status(200).json('loggedOut');
     }
+    else
+        res.status(403).json('no one');
 })
 const server=app.listen(process.env.PORT||3002);
 //socket

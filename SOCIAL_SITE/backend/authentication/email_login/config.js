@@ -82,9 +82,5 @@ router.post("/login",(req,res)=>{
        }
     }).catch(err=>res.status(403).json("Not a Registered User!"))
 })
-router.get('/logout',(req,res)=>{
-    res.clearCookie('user_sid').redirect('http://localhost:3000')
-})
-
 
 module.exports=router;
