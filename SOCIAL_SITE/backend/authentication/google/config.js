@@ -32,6 +32,7 @@ passport.use(
                 console.log("new"+user)
                 const db=new users_reg_in_model
                 db.proid=user._id;
+                db.name=user.user;
                 db.save().catch(err=>console.log(err));
                 done(null,user)}).catch(err=>console.log(err));
         }

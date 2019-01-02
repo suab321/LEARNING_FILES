@@ -29,7 +29,7 @@ const send=(email)=>{
         if(err)
             console.log(err)
         else
-            res.json('ok');
+            res.json(res);
     })
 }
 
@@ -45,8 +45,6 @@ router.post('/register',(req,res)=>{
         const db=new temp_login_model
         db.name=req.body.name;
         db.email=req.body.email;
-        if(!req.body.password===req.body.cpassword)
-            res.status(403).json('password dont match!');
         const hash=bcrypt.hashSync(req.body.password,10);
         db.password=hash;
         db.save().then(user=>{send(user.email)
@@ -64,6 +62,7 @@ router.get("/verify/:email",(req,res)=>{
         .then(user=>{
             const data=new users_reg_in_model
             data.proid=user._id
+            data.name=user.name
             data.save().catch(err=>console.log(err))
             temp_login_model.findOneAndDelete({email:req.params.email}).then(user=>{res.redirect('https://localhost:3000/all_user')})
             .catch(err=>console.log(err))

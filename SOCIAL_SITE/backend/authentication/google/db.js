@@ -37,7 +37,7 @@ const perma_login_schema=new mongoose.Schema({email:{type:String,unique:true},pa
 const perma_login_model=mongoose.model("perma_login_via_email",perma_login_schema);
 
 
-const user_reg_in_schema=new mongoose.Schema({proid:String,post:[String],profile_pic:[String],friend:[{fr_id:String,chat:String}],friend_id:[String]})
+const user_reg_in_schema=new mongoose.Schema({proid:String,name:String,post:[String],profile_pic:[String],friend:[{fr_id:String,chat:String}],friend_id:[String]})
 const users_reg_in_model=mongoose.model('users details',user_reg_in_schema);
 
 //method to retrive proifle image of other users
@@ -47,9 +47,10 @@ router.get('/get_profile_image/:filename',(req,res)=>{
             const readStream=gfs.createReadStream(file.filename)
             readStream.pipe(res);
     }
-        else{
-          res.status(403).json('no image');
-        }
+    else{
+        const readStream=gfs.createReadStream('ea19e148f7e8565244c3f31c1b8dc013');
+        readStream.pipe(res);
+    }
     })
 })
 router.get('/all_image',(req,res)=>{
@@ -74,22 +75,39 @@ router.get('/profile_image',(req,res)=>{
                 const readStream=gfs.createReadStream(file.filename)
                 readStream.pipe(res);
             }
-
         })
-    })
+      })
     }
     else if(req.user){
         users_reg_in_model.findOne({proid:req.user._id}).then(user=>{
             const profile_image=user.profile_pic[user.profile_pic.length-1]
+            if(!profile_image==='undefined'){
             gfs.files.findOne({filename:profile_image},(err,file)=>{
                 if(file){
                     const readStream=gfs.createReadStream(file.filename)
                     readStream.pipe(res);
                 }
-
             })
+          }
         })
     }
+})
+
+router.get('/all_profile_pic/:filename',tokenverify,(req,res)=>{
+    jwt.verify(req.token,'abhi1',(err,authdata)=>{
+        if(err)
+            res.status(405).json('Err verifying token')
+                gfs.files.findOne({filename:req.params.filename},(err,file)=>{
+                    if(file){
+                        const readStream=gfs.createReadStream(file.filename);
+                        readStream.pipe(res);
+                    }
+                    else if(err){
+                        const readStream=gfs.createReadStream('ea19e148f7e8565244c3f31c1b8dc013')
+                        readStream.pipe(res);
+                    }
+                })
+        })
 })
 module.exports={
     router_image:router,

@@ -3,7 +3,7 @@ const google_passport_setup=require('./authentication/google/config');
 
 const google_routes=require("./authentication/google/route");
 const login_routes=require("./authentication/email_login/config");
-const io=require('socket.io');
+const socket=require('socket.io');
 const passport=require('passport');
 const session=require("express-session");
 const cors=require("cors");
@@ -88,35 +88,27 @@ app.get("/user",(req,res)=>{
 })
 
 //method to upload profile photos by users
-app.post("/upload/profile_pic",tokenverify,(req,res)=>{
-            jwt.verify(req.token,'abhi',(err,authdata)=>{
-                if(err)
-                    res.status(403).json("err verifying token!");
-            upload(req,res,err=>{
-                if(err){
-                    console.log(err)
-                    res.status(405).json('token verification error')
-                }
-                else{
-                    console.log(req.file)
-                users_reg_in_model.findOne({proid:authdata.user._id}).then(user=>{
-                    if(user.length!==0){
-                        users_reg_in_model.findOneAndUpdate({proid:authdata.user._id},{$addToSet:{'profile_pic':req.file.filename}})
-                    .catch(err=>console.log(err))
-                    }
-                    else{
-                        const db=new users_reg_in_model
-                        db.proid=req.user._id;
-                        db.save().then(user=>{
-                            users_reg_in_model.findOneAndUpdate({proid:user.proid},{$addToSet:{'profile_pic':req.file.filename}})
-                            .catch(err=>console.log(err));
-                        })
-                    }
-                })
-                res.status(201).json(req.file);
-            }
+app.post("/upload/profile_pic",(req,res)=>{
+    if(req.user){
+        upload(req,res,err=>{
+            if(err)
+                res.status(405).json('err uploading file');
+            console.log(req.file);
+            users_reg_in_model.findOneAndUpdate({proid:req.user._id},{$addToSet:{'profile_pic':req.file.filename}})
+            .then(user=>res.redirect('http://localhost:3000/profile_page')).catch(err=>console.log(err))
         })
-    })
+        }
+        else if(req.session.user){
+            upload(req,res,err=>{
+                if(err)
+                    res.status(405).json('err uploading file');
+                console.log(req.file)
+                users_reg_in_model.findOneAndUpdate({proid:req.session.user._id},{$addToSet:{'profile_pic':req.file.filename}})
+                .then(user=>{res.redirect('http://localhost:3000/profile_page')}).catch(err=>console.log(err))
+            })
+        }
+        else
+            res.status(403).json('no one present');
 })
 
 //method to post photos by users
@@ -248,13 +240,14 @@ app.get('/logout',(req,res)=>{
         res.status(403).json('no one');
 })
 const server=app.listen(process.env.PORT||3002);
+
 //socket
-var conn=io(server);
-conn.on('connection',(socket)=>{
-    console.log("socket");
-    socket.on('chat',(msg)=>{
-        console.log(msg);
-    })
+
+const io=socket(server);
+io.on('connection',socket=>{
+    console.log("User is Connected");
+    socket.on('msg',msg=>{console.log(msg)});
 })
+
 
 

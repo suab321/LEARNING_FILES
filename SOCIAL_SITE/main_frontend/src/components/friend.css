@@ -7,6 +7,13 @@
     background-color: rgba(122,122,122,0.2);
     margin-bottom: 2em;
 }
+
+#no_user{
+    margin-top: 20%;
+    margin-left: 50%;
+    color: gray;
+}
+
 .name{
     cursor: pointer;
 }
@@ -20,9 +27,16 @@
 .inside{
     border:1px solid black;
 }
-@media only screen and (max-width:1166px){
-    .box{
-        margin-top:18em;
+#search{
+    margin-top:5em;
+    margin-left:44%;
+    width: 24%;
+    border-radius:1em;
+}
+@media only screen and (max-width:769px){
+    #search{
+        margin-left:36%;
+        width:48%;
     }
     img{
         border-radius: 5em;

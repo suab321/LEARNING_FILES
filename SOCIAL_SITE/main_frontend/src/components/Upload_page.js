@@ -1,54 +1,39 @@
 import React from 'react';
 import './upload.css';
-import axios from 'axios';
 
 class Upload_page extends React.Component{
-    constructor(props){
-        super(props);
-        this.handlefile=this.handlefile.bind(this)
-        this.submit=this.submit.bind(this)
-        this.state={file:null,err:0}
+    constructor(){
+        super();
+        this.state={err:1};
+        this.handlefile=this.handlefile.bind(this);
     }
     handlefile(e){
-        const image_name=e.target.files[0].name.split('.')[1];
-        const includes=['jpeg','jpg','png'];
-        if(!includes.includes(image_name))
-            this.setState({err:1})
-        else
+        const format=['jpeg','jpg','png'];
+        const ex=e.target.files[0].name.split('.')[1];
+        if(format.includes(ex)){
             this.setState({err:0})
-        this.setState({file:e.target.files[0]})
-        console.log(this.state.file)
-        console.log(this.state.err)
-    }
-    submit(){
-        let formdata=new FormData();
-        formdata.append('file',this.state.file);
-            axios.get('http://localhost:3002/user',{withCredentials:true}).then(res=>{
-                if(res.status===200){
-                    axios.post('http://localhost:3002/upload/profile_pic',{file:formdata},
-                    {headers:{Authorization: `Bearer ${res.data}`}}).then(res=>console.log(res))
-                }
-            })
         }
+    }
 
     render(){
+        console.log(this.state.err)
         if(!this.state.err){
         return(
             <div id='file_main'>
-                <div encType='multipart/form-data'>
+                <form encType='multipart/form-data' method='POST' action="http://localhost:3002/upload/profile_pic">
                     <img src={`http://localhost:3002/image/profile_image`} height='200px'width='85%'/>
-                    <input id='image_file' type='file' name='file' required onChange={this.handlefile}/>
-                    <button type='submit' onClick={this.submit}>Upload</button>
-                </div>
+                    <input id='image_file' type='file' ref={(ref)=>this.file=ref} name='file' onChange={this.handlefile}/>
+                    <button type='submit'>Upload</button>
+                </form>
             </div>
         )
     }
     else{
         return(
         <div id='file_main'>
-        <form encType='multipart/form-data'>
+        <form encType='multipart/form-data' method='POST' action='multipart/form-data'>
             <img src={`http://localhost:3002/image/profile_image`} height='200px'width='85%'/>
-            <h3>Enter Image file only</h3>
+            <h3>Enter Image file</h3>
             <input id='image_file' type='file' name='file' required onChange={this.handlefile}/>
         </form>
     </div>
