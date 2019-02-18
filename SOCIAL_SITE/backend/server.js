@@ -247,6 +247,7 @@ const io=socket(server);
 io.on('connection',socket=>{
     console.log("User is Connected");
     socket.on('msg',msg=>{console.log(msg)});
+    socket.emit("msg",{msg:"hey client"})
 })
 
 

@@ -5,12 +5,13 @@ import axios from 'axios';
 class Friend extends React.Component{
     constructor(props){
         super(props);
-        this.state={name:''}
+        this.state={name:'',frnds:[],isfriend:false}
     }
     render(){
         axios.get(`http://localhost:3002/get_name/${this.props.id}`).then(res=>{
             this.setState({name:res.data})
         })
+        //axios.get('')
         return(
             <div className='inside'>
             <img id='profile' src={`http://localhost:3002/image/get_profile_image/${this.props.profile_pic_id}`}_/>

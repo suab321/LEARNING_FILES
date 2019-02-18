@@ -6,9 +6,7 @@ import Register from './components/Register'
 import Verification from './components/Verification';
 import {Navbar} from 'react-bootstrap';
 import {Nav} from 'react-bootstrap';
-import {FormControl} from 'react-bootstrap';
-import {FormGroup} from 'react-bootstrap';
-import {Button} from 'react-bootstrap';
+import NotificationModal from './components/NotificationModal';
 import {NavItem} from 'react-bootstrap';
 import {NavDropdown} from 'react-bootstrap';
 import {MenuItem} from 'react-bootstrap';
@@ -17,20 +15,20 @@ import Profile_page_other from './components/Profile_page_other';
 import Upload_page from './components/Upload_page';
 import './app.css';
 import io from 'socket.io-client';
+import {Modal} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import socketHandler from './components/SocketHandler'
 import Profile_page_user from './components/Profile_page_user';
 import Logout from './components/Logout';
 import Axios from 'axios';
+import noty from 'noty';
 
 
 
 class App extends Component {
   constructor(){
     super();
-    const socket=io("http://localhost:3002")
-    socket.emit("msg",{from:"client",to:"server",msg:"Hey server"});
-    this.change=this.change.bind(this);
-    this.state={users:[]}
+    this.showModal=this.showModal.bind(this);
     Axios.get('http://localhost:3002/user',{withCredentials:true}).then(res=>{
       if(res.status===200){
         Axios.get('http://localhost:3002/get_all_user',{headers:{Authorization: `Bearer ${res.data}`}}).then(res=>{
@@ -39,20 +37,10 @@ class App extends Component {
       }
     })
   this.handle_socket=new socketHandler();
-  this.handle_socket.handle_chat(socket);
-   
+  this.handle_socket.handle_chat(io);
   }
-  click(){
-    console.log("click");
-  }
-  change(e){
-    console.log(e.target.value)
-    let data=this.state.users.filter(user=>{
-      if(user.name.toLowerCase().includes.e.target.value.toLowerCase()){
-        console.log(user.name);
-        return user.name;
-      }
-    })
+  showModal(){
+    
   }
   render() {
     
@@ -78,7 +66,8 @@ class App extends Component {
   </Navbar.Header>
   <Navbar.Collapse>
     <Nav pullLeft>
-    <NavItem href='/all_user'bsStyle={{fontSize:'2em'}}>Users</NavItem>
+    <NavItem href='/all_user' bsStyle={{fontSize:'2em'}}>Users</NavItem>
+    <NavItem onClick={this.showModal} bsStyle={{fontSize:'2em'}}>Chat</NavItem>
     <NavItem href='/profile_page'bsStyle={{fontSize:'2em'}}>profile</NavItem>
     </Nav>
    <Nav pullRight>
@@ -89,8 +78,8 @@ class App extends Component {
    </Nav>
    </Navbar.Collapse>
 </Navbar>
-        </div>
-      </Router>
+</div>
+</Router>
       
     );
   }
