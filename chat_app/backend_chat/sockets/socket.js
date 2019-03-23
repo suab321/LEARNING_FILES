@@ -3,24 +3,34 @@ const socket=require('socket.io');
 
 const {user_model}=require('../db/db');
 
-var io,connected_socket;
+var io;var connected_socket;
 var clients=0;
-var sessions=[]
+var active_users=[]
 function connection(port){
      io=socket(port);
      io.on('connection',socket=>{
-         clients++;
          connected_socket=socket;
-         sessions.push(connected_socket.id);
-         console.log("now connected clients are "+clients);
-         console.log("sessions are "+sessions)
-         io.to(sessions[0]).emit("to_me",{msg:'howdy'});
-         connected_socket.on('disconnect',()=>{
-             clients--;
-             sessions.splice(sessions.indexOf(connected_socket.id),1);
-             console.log("Clients are "+clients);
-             console.log("sessions are "+sessions);
-         })
+        connected_socket.on("user_connected",data=>{
+            var t=1;
+            active_users.forEach(i=>{
+                if(i.user_id === data.id)
+                    t=0;
+            })
+            if(t){
+                active_users.push({socket_id:connected_socket.id,user_id:data.id});
+                console.log(active_users);
+                console.log("Active clients are "+active_users.length);
+                io.sockets.emit("active_users",active_users);
+            }
+        })
+        connected_socket.on("disconnect",()=>{
+            const x=active_users.filter(i=>{
+                if(i.socket_id != connected_socket.id)
+                    return i;
+            })
+            active_users=x;
+            io.sockets.emit("active_users",active_users);
+        })
      })
 }
 module.exports={
