@@ -41,8 +41,15 @@ class Friendlist extends React.Component{
 
     render(){
         console.log(this.state.active_users);
-        const display=this.state.users.map(i=>{
-           return <S_friend details={i} clicked={this.clicked}/>
+        var user_id=this.state.active_users.map(i=>{return i.user_id});
+        console.log(user_id);
+        var activeUsers=this.state.users.filter(i=>{
+            if(user_id.indexOf(i._id) !== -1)
+                return i;
+        })
+        console.log(activeUsers);
+        const display=activeUsers.map(i=>{
+                return <S_friend details={i} clicked={this.clicked}/>
         })
         if(!this.state.redirect){
         return(

@@ -18,8 +18,7 @@ function connection(port){
             })
             if(t){
                 active_users.push({socket_id:connected_socket.id,user_id:data.id});
-                console.log(active_users);
-                console.log("Active clients are "+active_users.length);
+                console.log("Active users are "+active_users.length);
                 io.sockets.emit("active_users",active_users);
             }
         })
@@ -29,6 +28,7 @@ function connection(port){
                     return i;
             })
             active_users=x;
+            console.log(' No. of Active users '+active_users.length)
             io.sockets.emit("active_users",active_users);
         })
      })
