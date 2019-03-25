@@ -3,15 +3,18 @@ import S_friend from './S_friend';
 import {Redirect} from 'react-router';
 import Axios from 'axios';
 import {url} from '../url';
-import Socket_fucn from '../sockets/Socket_fucn';
 import io from 'socket.io-client';
+import Chat from '../chat_page/Chat';
 
 
 class Friendlist extends React.Component{
     constructor(props){
         super(props);
+        this.chatpage_obj=new Chat();
         this.state={redirect:null,users:[],active_users:[]};
         this.clicked=this.clicked.bind(this);
+        this.socket=null;
+        this.send_message=this.send_message.bind(this);
         this.connection=this.connection.bind(this);
         Axios.get(`${url}/services/info`,{withCredentials:true}).then(res=>{
             if(res.status === 200 || 304){
@@ -26,11 +29,19 @@ class Friendlist extends React.Component{
         })
     }
 
+    send_message(message){
+        this.socket.emit('new_message_sender',message);
+        console.log(message);
+    }
+
     connection(port){
         this.socket=io(port);
         this.socket.emit("user_connected",{id:localStorage.getItem('id')});
         this.socket.on("active_users",(data)=>{
             this.setState({active_users:data});
+        });
+        this.socket.on('new_message_recevier',message=>{
+            this.chatpage_obj.message_recevied(message);
         });
     }
     

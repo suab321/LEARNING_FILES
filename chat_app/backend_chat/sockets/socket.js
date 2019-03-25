@@ -31,6 +31,17 @@ function connection(port){
             console.log(' No. of Active users '+active_users.length)
             io.sockets.emit("active_users",active_users);
         })
+        connected_socket.on('new_message_sender',(message)=>{
+            console.log(message)
+            console.log(connected_socket.id);
+            const his_id=active_users.filter(i=>{
+                if(i.user_id === message.to)
+                    return i;
+            })
+            console.log(his_id);
+            console.log(his_id[0].socket_id);
+            io.to(his_id[0].socket_id).emit('new_message_recevier',message);
+        })
      })
 }
 module.exports={
