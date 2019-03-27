@@ -8,6 +8,7 @@ const {url}=require('../url');
 class Chat extends React.Component{
     constructor(props){
         super(props);
+        console.log(props);
         this.state={message:[{key:"",msg:""}]}
         this.send_message=this.send_message.bind(this);
         this.mychat=React.createRef();

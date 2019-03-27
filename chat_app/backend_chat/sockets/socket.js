@@ -13,8 +13,10 @@ function connection(port){
         connected_socket.on("user_connected",data=>{
             var t=1;
             active_users.forEach(i=>{
-                if(i.user_id === data.id)
+                if(i.user_id === data.id){
+                    i.socket_id=connected_socket.id;
                     t=0;
+                }
             })
             if(t){
                 active_users.push({socket_id:connected_socket.id,user_id:data.id});
@@ -24,7 +26,7 @@ function connection(port){
         })
         connected_socket.on("disconnect",()=>{
             const x=active_users.filter(i=>{
-                if(i.socket_id != connected_socket.id)
+                if(i.socket_id !== connected_socket.id)
                     return i;
             })
             active_users=x;

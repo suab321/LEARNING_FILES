@@ -65,6 +65,34 @@ router.get('/user_list',verify,(req,res)=>{
         res.status(401).json({err:1})
     }
 })
+//ending route to get users list
+
+//saving chat messages into database
+router.post('/save_chat',verify,(req,res)=>{
+    console.log(req.body.data);
+    console.log(req.body.to);
+    const tkn=decodeToken(req.token).user;
+    if(tkn){
+        var chat_with_user=[];
+        user_model.findById({_id:tkn}).then(user=>{
+            chat_with_user=user;
+            chat_with_user=JSON.stringify(chat_with_user);
+            if(chat_with_user.indexOf(req.body.to) === -1){
+                user_model.findOneAndUpdate({_id:tkn},{$addToSet:{'chat':{'user_id':req.body.to,'msg':req.body.data}}},{new:true}).then(user=>{
+                    console.log(user)
+                })
+            }
+            else{
+                console.log("old")
+                user_model.update({_id:tkn,'chat.user_id':req.body.to},{$push:{'chat.$.msg':req.body.data}},{new:true}).then(user=>{
+                    console.log(user);
+                })
+            }
+        })
+    }
+else console.log("err");
+   
+})
 
 
 module.exports=router

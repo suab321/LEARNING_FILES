@@ -2,6 +2,7 @@ const mongoose=require('mongoose');
 
 const {database}=require('../url');
 
+
 mongoose.connect(database,(err,success)=>{
     if(err)
         console.log(err);

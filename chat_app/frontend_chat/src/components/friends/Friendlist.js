@@ -1,19 +1,21 @@
+
 import React from 'react'
 import S_friend from './S_friend';
-import {Redirect} from 'react-router';
 import Axios from 'axios';
 import {url} from '../url';
 import io from 'socket.io-client';
-import Chat from '../chat_page/Chat';
+
 
 
 class Friendlist extends React.Component{
     constructor(props){
         super(props);
-        this.chatpage_obj=new Chat();
-        this.state={redirect:null,users:[],active_users:[]};
+        this.state={redirect:null,users:[],active_users:[],messages:[{}]};
         this.clicked=this.clicked.bind(this);
         this.socket=null;
+        this.closebox=this.closebox.bind(this);
+        this.mychat=React.createRef();
+        localStorage.setItem('chats',[]);
         this.send_message=this.send_message.bind(this);
         this.connection=this.connection.bind(this);
         Axios.get(`${url}/services/info`,{withCredentials:true}).then(res=>{
@@ -23,27 +25,50 @@ class Friendlist extends React.Component{
                         this.setState({users:res.data});
                         this.connection(`${url}`);
                         console.log(this.state.active_users);
-                        console.log(this.state.users);
                 })
             }
         })
     }
 
-    send_message(message){
+    componentWillUnmount(){
+        Axios.get(`${url}/services/info`,{withCredentials:true}).then(user=>{
+            Axios.post(`${url}/services/save_chat`,{data:this.state.messages,to:this.state.redirect._id},{headers:{Authorization: `Bearer ${user.data}`}});
+        })
+    }
+
+    closebox(){
+        Axios.get(`${url}/services/info`,{withCredentials:true}).then(user=>{
+            Axios.post(`${url}/services/save_chat`,{data:this.state.messages,to:this.state.redirect._id},{headers:{Authorization: `Bearer ${user.data}`}});
+        this.setState({messages:[]});
+        this.setState({redirect:null})
+        })
+    }
+
+    send_message(){
+        var message={msg:this.mychat.current.value,to:this.state.redirect._id}
         this.socket.emit('new_message_sender',message);
+        var arr=this.state.messages;
+        arr.push({msg:message.msg,key:'my'});
+        this.setState({messages:arr});
         console.log(message);
+        this.mychat.current.value="";
     }
 
     connection(port){
         this.socket=io(port);
         this.socket.emit("user_connected",{id:localStorage.getItem('id')});
+
         this.socket.on("active_users",(data)=>{
             this.setState({active_users:data});
         });
         this.socket.on('new_message_recevier',message=>{
-            this.chatpage_obj.message_recevied(message);
+            console.log(message);
+            var arr=this.state.messages;
+            arr.push({msg:message.msg,key:'h'});
+            this.setState({messages:arr});
         });
     }
+
     
 
     clicked(detail){
@@ -70,12 +95,34 @@ class Friendlist extends React.Component{
         )
         }
         else{
+            console.log(this.state.messages);
+            const message_display=this.state.messages.map(i=>{
+                if(i.key === "my"){
+                return(
+                    <div>
+                        <h4>{i.msg}</h4>
+                    </div>
+                )
+                }
+                else{
+                    return(
+                        <div>
+                            <h4 style={{backgroundColor:"rgb(122,45,98)"}}>{i.msg}</h4>
+                        </div>
+                    )
+                }
+            })
             return(
                 <div>
-                    <Redirect to={{
-                        pathname:'/chatpage',
-                        state:this.state.redirect
-                    }}/>
+                    {display}
+                <div style={{backgroundColor:"green",textAlign:"center",padding:"3% 0"}}>{this.state.redirect.name}
+                <div style={{textAlign:'right',paddingRight:'5%'}}><h5 onClick={this.closebox}>Close</h5></div>
+                </div>
+                <div style={{marginTop:'3em',paddingLeft:'40%'}}>
+                    <input ref={this.mychat} type="text"/>
+                    <button onClick={this.send_message}>Send</button>
+                </div>
+                <div style={{textAlign:"center"}}>{message_display}</div>
                 </div>
             )
         }
