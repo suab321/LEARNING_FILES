@@ -25,6 +25,7 @@ function connection(port){
             }
         })
         connected_socket.on("disconnect",()=>{
+            console.log('disconnected');
             const x=active_users.filter(i=>{
                 if(i.socket_id !== connected_socket.id)
                     return i;
@@ -40,9 +41,25 @@ function connection(port){
                 if(i.user_id === message.to)
                     return i;
             })
-            console.log(his_id);
-            console.log(his_id[0].socket_id);
-            io.to(his_id[0].socket_id).emit('new_message_recevier',message);
+            // console.log(his_id);
+            // console.log(his_id[0].socket_id);
+            if(his_id[0] === undefined){
+                user_model.findById({_id:message.to}).then(user=>{
+                    chat_with_user=user;
+                    chat_with_user=JSON.stringify(chat_with_user);
+                    if(chat_with_user.indexOf(req.body.to) === -1){
+                        user_model.findOneAndUpdate({_id:message.to},{$addToSet:{'chat':{'user_id':message.from,'msg':message.msg}}},{new:true}).then(user=>{console.log(user)})
+                    }
+                    else{
+                        console.log("old")
+                        user_model.update({_id:message.to,'chat.user_id':messaage.from},{$push:{'chat.$.msg':message.msg}},{new:true}).then(user=>{
+                            console.log(user);
+                        })
+                    }
+                })
+            }
+            else
+                io.to(his_id[0].socket_id).emit('new_message_recevier',message);
         })
      })
 }

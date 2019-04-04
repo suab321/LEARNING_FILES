@@ -41,11 +41,10 @@ app.use(session({
     resave:false,
     saveUninitialized:false,
     store:new store({mongooseConnection:mongoose.connection}),
-    cookie:{maxAge:null}
+    cookie:{maxAge: 1000* 60 * 60 *24 * 365}
 }))
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 
 app.use('/authentication',auth_route);
