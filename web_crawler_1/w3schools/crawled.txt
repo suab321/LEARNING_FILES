@@ -1,0 +1,11 @@
+https://www.w3schools.com
+https://www.w3schools.com/angular/angular_examples.asp
+https://www.w3schools.com/bootstrap/bootstrap_ref_all_classes.asp
+https://www.w3schools.com/bootstrap/bootstrap_ver.asp
+https://www.w3schools.com/cert/cert_jquery.asp
+https://www.w3schools.com/cert/cert_python.asp
+https://www.w3schools.com/html/html_quiz.asp
+https://www.w3schools.com/jquery/jquery_ref_overview.asp
+https://www.w3schools.com/js/js_quiz.asp
+https://www.w3schools.com/sql/sql_quiz.asp
+https://www.w3schools.comjavascript:void(0);
