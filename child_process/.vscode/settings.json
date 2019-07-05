@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.txt": "ini",
+        "*.jsx": "javascriptreact",
+        "iostream": "cpp"
+    }
+}
