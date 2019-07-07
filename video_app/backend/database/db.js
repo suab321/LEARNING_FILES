@@ -3,7 +3,6 @@ const multer=require('multer');
 const GridStorage=require('multer-gridfs-storage');
 const Grid=require('gridfs-stream');
 const router=require('express').Router();
-const ffmpeg=require('ffmpeg');
 
 
 //developer made imports
@@ -12,6 +11,9 @@ const {db_url}=require('../url');
 
 
 mongoose.connect(db_url,{useNewUrlParser:true,useCreateIndex:true});
+mongoose.Promise=global.Promise;
+
+
 let connection=mongoose.connection
 let gfs;
 connection.once('open',()=>{
@@ -42,6 +44,7 @@ const video=new mongoose.Schema({
     thumbnail:String,
     creator:{type:mongoose.Schema.Types.ObjectId,ref:'Channel'},
     likes:Number,
+    dislikes:Number,
     comments:[{
         ByChannel:{type:mongoose.Schema.Types.ObjectId,ref:'Channel'},
         msg:String,
@@ -50,9 +53,9 @@ const video=new mongoose.Schema({
             msg:String
         }]
     }],
-    Title:String,
+    Title:{type:String,default:""},
     views:Number,
-    Description:String
+    Description:{type:String,default:""}
 })
 
 const Channel=mongoose.model('Channel',channel);
@@ -83,22 +86,13 @@ router.get('/stream_filename/:filename',(req,res)=>{
         if(err)
             res.status(400).json({msg:"Unable to fetch video from database"});
         else{
-            gfs.createReadStream(data.filename).pipe(res);
+            gfs.createReadStream(req.params.filename).pipe(res);
         }
     })
 })
 //route ends//
 
-//route to get a image thumbnail from its filename//
-router.get('/get_image/:filename',(req,res)=>{
-    gfs.files.findOne({filename:req.params.filename},(err,data)=>{
-        if(err)
-            res.status(400).json({msg:"unable to fetch"});
-        else{
-        }
-    })
-})
-//route ends//
+
 
 module.exports={
     Channel,

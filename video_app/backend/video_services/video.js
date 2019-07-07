@@ -107,6 +107,41 @@ router.get('/get_videos_list_others',[check_session,validateToken],async(req,res
 })
 //route ends//
 
+//route to update views or like or comments//
+router.post('/update',[check_session,validateToken],(req,res)=>{
+    if(req.body.type === "views"){
+        Video.findOneAndUpdate({video_id:req.body.filename},{$inc:{views:1}})
+        .then(user=>{res.status(200).json("Updated view")})
+        .catch(err=>{res.status(400).json("Unable to update view")});
+    }
+    else if(req.body.type === "likes"){
+        Video.findOneAndUpdate({video_id:req.body.filename},{$inc:{likes:1}})
+        .then(user=>{res.status(200).json("Updated")})
+        .catch(err=>{res.status(400).json("Error updating")});
+    }
+    else if(req.body.type === "dislikes"){
+        Video.findOneAndUpdate({video_id:req.body.filename},{$inc:{dislikes:1}})
+        .then(user=>{res.status(200).json("Updated")})
+        .catch(err=>{res.status(400).json("Error updating")});
+    }
+})
+//route ends//
+
+//route to add comments//
+router.post('/add_comment',[check_session,validateToken],(req,res)=>{
+    console.log(req.body);
+    if(req.body.type === "video"){
+    const comment_obj={
+        'ByChannel':req.token,
+        'msg':req.body.msg,
+        'replies':[]
+    }
+    Video.findOneAndUpdate({video_id:req.body.filename},{$addToSet:{'comments':comment_obj}},{new:false}).then(user=>{res.status(200).json(user)})
+    .catch(err=>{res.status(400).json("error adding comment")});
+    }
+})
+//route ends//
+
 
 
 module.exports={

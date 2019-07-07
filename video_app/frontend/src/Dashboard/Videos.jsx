@@ -7,8 +7,8 @@ import SingleVideo from './SingleVideo';
 //ends//
 
 class Videos extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
             data:null
         }
@@ -24,7 +24,7 @@ class Videos extends React.Component{
         let list;
         if(this.state.data != null){
             list=this.state.data.map(i=>{
-                return <SingleVideo details={i}/>
+                return <SingleVideo details={i} type={this.props.type} videoClicked={this.props.videoSelect}/>
             });
         }
         return(
