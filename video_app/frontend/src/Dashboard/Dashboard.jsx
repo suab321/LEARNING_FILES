@@ -19,9 +19,11 @@ class Dashboard extends React.Component{
             isUploadError:false,
             clickedVideo:{video_id:null,channel:null},
             videos:[],
-            key:''
+            key:'',
+            showVids:false
         };
         this.playVideo=this.playVideo.bind(this);
+        this.showVideosInPlayer=this.showVideosInPlayer.bind(this);
 
     }
 
@@ -33,14 +35,19 @@ class Dashboard extends React.Component{
         }
     }
 
+    showVideosInPlayer(dec){
+        this.setState({showVids:true});
+    }
+
     render(){
         if(this.state.clickedVideo.video_id !== null){
             return(
                 <div>
                     <div style={{position:'fixed',margin:'15px 15px'}}><NavigationBar/></div>
                     <div>
-                        <div style={{position:'fixed'}}><VideoPlayers  channel={this.state.clickedVideo.channel} video_id={this.state.clickedVideo.video_id} /></div>
-                        <Videos type={'list'} videoSelect={this.playVideo}/>
+                        <div style={{position:'float'}}><VideoPlayers  channel={this.state.clickedVideo.channel} video_id={this.state.clickedVideo.video_id} shouldShowVieos={this.showVideosInPlayer} /></div>
+                        {(this.state.showVids)?<Videos type={'list'} videoSelect={this.playVideo}/>:''}
+                        
                     </div>
                 </div>
             )

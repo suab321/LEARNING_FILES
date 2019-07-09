@@ -5,6 +5,9 @@ import {Redirect} from 'react-router';
 
 import {backend} from '../url';
 
+//socket modules
+const {disconnect}=require('../Socket')
+
 
 class NavigationBar extends React.Component{
     constructor(){
@@ -37,8 +40,13 @@ class NavigationBar extends React.Component{
     //functions ends//
 
     //function for logout click//
-    logout(){
-        Axios.get(`${backend}/logout`,{withCredentials:true});
+    async logout(){
+        try{
+            await Axios.get(`${backend}/logout`,{withCredentials:true});
+            disconnect();
+        }catch(err){
+            console.log(err);
+        }
     }
     //function ends//
 

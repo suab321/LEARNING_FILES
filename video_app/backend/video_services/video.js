@@ -6,7 +6,6 @@ const {decodeToken}=require('../jwt/jwt')
 //importing developers made modules ends//
 
 
-
 //req.token gives the user id for querying in database//
 
 //function middleware to check if session exits//
@@ -43,6 +42,7 @@ router.post('/upload',[check_session,validateToken],async(req,res)=>{
                         db.creator=req.token;
                         db.save().then(user=>{
                             res.status(200).json({msg:user._id});
+                            
                         }).catch(err=>{res.status(400).json({msg:"error updating video object"})});
                 }
         })
@@ -69,8 +69,8 @@ router.post('/video_details',[check_session,validateToken],async(req,res)=>{
         let data1=await Video.findByIdAndUpdate({_id:req.body.video_id},
             {Title:req.body.Title,Description:req.body.Description,thumbnail:req.body.thumbnail});
             try{
-                await Channel.findByIdAndUpdate({_id:req.token},{$push:{'myVideos':data1._id}});
-                res.status(200).json({msg:"update successful"});
+                let d1=await Channel.findByIdAndUpdate({_id:req.token},{$push:{'myVideos':data1._id}});
+                res.status(200).json({d1});
             }catch(err){
                 res.status(400).json({});
             }
@@ -138,6 +138,21 @@ router.post('/add_comment',[check_session,validateToken],(req,res)=>{
     }
     Video.findOneAndUpdate({video_id:req.body.filename},{$addToSet:{'comments':comment_obj}},{new:false}).then(user=>{res.status(200).json(user)})
     .catch(err=>{res.status(400).json("error adding comment")});
+    }
+})
+//route ends//
+
+//route when someones subscribe//
+router.post('/subscribe',[check_session,validateToken],async(req,res)=>{
+    console.log(req.body)
+    try{
+        await Channel.findByIdAndUpdate({_id:req.body.channel},{
+            $push:{'channelSubscribed':req.token},
+            $inc:{'Subscriber':1}
+        });
+        res.status(200).json({msg:"updated"});
+    }catch(err){
+        res.status(400).json(err);
     }
 })
 //route ends//

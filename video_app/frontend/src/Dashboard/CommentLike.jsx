@@ -24,24 +24,20 @@ class CommentLike extends React.Component{
         
     }
 
-    async postComment(){
-        try{
+    postComment(){
+            let arr=this.state.comments;
+            arr.push({msg:this.comment.current.value});
+            arr.reverse();
+            this.setState({comments:arr});
             Axios.post(`${backend}/video_service/add_comment`,{type:"video",filename:this.props.video.video_id,msg:this.comment.current.value},{withCredentials:true});
-        }catch(err){
-            console.log(err);
-        }
     }
 
-    async updateVideo(what){
+    updateVideo(what){
         console.log(this.props.video.video_id)
-        try{
             Axios.post(`${backend}/video_service/update`,{type:what,filename:this.props.video.video_id},{withCredentials:true});
             console.log("updated");
-        }catch(err){
-            console.log(console.log(err));
-        }
-        
     }
+
     render(){
         let comments=this.state.comments.map(i=>{
             return(

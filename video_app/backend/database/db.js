@@ -35,7 +35,7 @@ const channel=new mongoose.Schema({
     google_id:{type:String,unique:true},
     myVideos:[{type:mongoose.Schema.Types.ObjectId,ref:'Video'}],
     Videos:[{type:mongoose.Schema.Types.ObjectId,ref:'Video'}],
-    Subscriber:Number,
+    Subscriber:{type:Number,default:0},
     channelSubscribed:[{type:mongoose.Schema.Types.ObjectId,ref:'Channel'}]
 })
 

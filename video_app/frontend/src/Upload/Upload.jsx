@@ -6,7 +6,9 @@ import {Button, Alert} from 'react-bootstrap';
 import {backend,frontend} from '../url';
 import Axios from 'axios';
 import NavigationBar from '../Dashboard/NavigationBar';
+
 //ends//
+const {newUpload}=require('../Socket');
 
 class Upload extends React.Component{
     constructor(){
@@ -58,7 +60,12 @@ class Upload extends React.Component{
                         {thumbnail:data1.data.msg,video_id:data2.data.msg,
                         Title:this.Title.current.value,Description:this.description.current.value},
                         {withCredentials:true});
+                        //notifiying throug modules Socket developer made//
+                        newUpload(data3.data.d1);
+
                         this.setState({error:false})
+                        
+                        
             }catch(err){
                 alert("you got error in uploading video")
             }

@@ -10,17 +10,29 @@ import Login from './Login/Login'
 import Dashboard from './Dashboard/Dashboard';
 import Upload from './Upload/Upload';
 import NavigationBar from './Dashboard/NavigationBar';
+import { setInterval } from 'timers';
 //ends//
 
+const sockets=require('./Socket');
 class App extends React.Component{
+  
   constructor(){
     super();
+    this.socket_func=sockets;
+    setInterval(()=>{this.socket_func.connection(backend)},10000);
     this.state={isLoggedIn:false}
   }
+
   componentWillMount(){
     Axios.get(`${backend}`,{withCredentials:true}).then(res=>{
+      localStorage.setItem('user_id',res.data.user_id);
+      localStorage.setItem('name',res.data.name);
         this.setState({isLoggedIn:true});
     })
+  }
+  
+  componentWillUnmount(){
+    // this.socket_func.disconnect();
   }
 
   render(){
