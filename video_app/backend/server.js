@@ -80,10 +80,11 @@ app.get('/logout',check_session,(req,res)=>{
 })
 //route ends//
 
-
+//sockets basic setup//
 const listen=app.listen(process.env.PORT||3002);
 let io=socket(listen);
 io.use((socket,next)=>{
     sessionObj(socket.request,socket.request.res,next);
 })
 connection(io);
+//setup ends//

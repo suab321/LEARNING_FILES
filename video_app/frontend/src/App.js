@@ -28,6 +28,7 @@ class App extends React.Component{
       localStorage.setItem('user_id',res.data.user_id);
       localStorage.setItem('name',res.data.name);
         this.setState({isLoggedIn:true});
+        
     })
   }
   
