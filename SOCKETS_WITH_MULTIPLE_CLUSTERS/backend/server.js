@@ -48,6 +48,4 @@ else{
         console.log(process.pid,socket.id);
         io.emit("new connected",socket.id)
     })
-
-    
 }
