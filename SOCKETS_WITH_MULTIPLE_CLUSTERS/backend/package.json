@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "farmhash": "^3.0.0",
+    "nodemon": "^1.19.1",
+    "socket.io": "^2.2.0",
+    "socket.io-redis": "^5.2.0",
+    "socketio-sticky-session": "^0.4.3",
+    "sticky-session": "^1.1.2"
+  }
+}

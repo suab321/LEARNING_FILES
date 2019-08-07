@@ -74,13 +74,14 @@ app.post("/task3_add_subtask/:id/:subid",async(req,res)=>{
     res.send("yes");
 })
 app.get("/update_task3_subtask/:id/:taskid/:subtaskid",async(req,res)=>{
-    const x=await s3.update({_id:req.params.id,"task3._id":req.params.taskid,"subtask.$._id":req.params.subtaskid},{$set:{'subtask.$.desc':"xxxxx"}});
+    const x=await s3.update({_id:req.params.id,"task3.subtask.id":req.params.subtaskid},{$set:{'subtask.$.desc':"xxxxx"}});
     res.send(x);
 })
 app.get("/find_task3_subtask/:id/:taskid/:subtaskid",async(req,res)=>{
-    const data=await s3.find({_id:req.params.id},{"task3":{$elemMatch:{"_id":req.params.taskid}}});
+    const data=await s3.update({_id:req.params.id},{"task3":{$elemMatch:{"_id":req.params.taskid}}},{$set:{"task3.subtask.$.desc":{_id:"xxxxxxx"}}});
     res.send(data);
 })
+
 //to remove you need to first remove the that embedded object than re insert into the spot//
 //end//
 
