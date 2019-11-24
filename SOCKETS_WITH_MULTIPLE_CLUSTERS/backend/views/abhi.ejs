@@ -17,8 +17,8 @@
     <script src="/socket.io/socket.io.js"></script>
 
 <script>
-    var socket=io('http://localhost:3000',{transports:['websocket']});
+    var socket=io('http://localhost:3000');
     socket.on("new connected",data=>{console.log(data)});
-    socket.emit("hey","i am")
+    socket.emit("new","i am")
 </script>
 </html>

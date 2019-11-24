@@ -1,51 +1,42 @@
-const cluster=require('cluster');
-const express=require('express');
-const farmhash=require('farmhash');
-const socket=require('socket.io');
-const net=require('net');
-const os=require('os');
-const http=require('http');
-const ss=require('sticky-session');
+var sticky = require('sticky-session'),
+    http = require('http'),
+    express = require('express'),
+    socketIO = require('socket.io'),
+    cluster = require('cluster'),
+    port = process.env.PORT || 3000;
+    socket_redis=require('socket.io-redis')
 
-const socket_redis=require('socket.io-redis');
 
-const server_port='3000'
-const ins=os.cpus().length;
-var workers=[];
+  var app = express(), io;
 
-if(cluster.isMaster){
-    for(var i=0;i<ins;i++)
-        workers.push(cluster.fork());
+  server = http.Server(app);
+  app.set('view engine','ejs');
+  app.get('/', function (req, res) {
+    console.log('send message by worker: ' + cluster.worker.id);
+    res.render('abhi');
+});
 
-    // const get_worker_index=(ip,len)=>{
-    //     console.log(ip);
-    //     return farmhash.fingerprint32(ip)%len;
-    // }
-    // net.createServer({
-    //     pauseOnConnect:true,
-    // },(connection)=>{
-    //     console.log(connection);
-    //     const worker=workers[get_worker_index(connection.remoteAddress,ins)];
-    //     worker.send({cmd:'stickySession'},connection);
-    // }).listen('3002');
+  io = socketIO(server);
+  io.adapter(socket_redis({host:'localhost',port:'6379'}))
+  io.on("connection",s=>{
+      s.on("new",data=>{
+          console.log("hey you")
+      })
+  })
+
+  // Add your socket.IO connection logic here
+
+
+if(!sticky.listen(server,port))
+{
+  server.once('listening', function() {
+    console.log('Server started on port '+port);
+  });
+
+  if (cluster.isMaster) {
+    console.log('Master server started on port '+port);
+  } 
 }
-else{
-    console.log(process.pid);
-
-    const app=express();
-    // const server=http.createServer(app);
-    app.set('view engine','ejs');
-
-    app.get("/",(req,res)=>{
-        res.render('abhi');
-    });
-    // ss.listen(server,3000);
-    // const port=app.listen(server_port);
-    const port=app.listen(3000);
-    const io=socket(port);
-    io.adapter(socket_redis({host:'localhost',port:'6379'}))
-    io.on("connection",socket=>{
-        console.log(process.pid,socket.id);
-        io.emit("new connected",socket.id)
-    })
-}
+else {
+    console.log('- Child server started on port '+port+' case worker id='+cluster.worker.id);
+  }
