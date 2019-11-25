@@ -16,18 +16,20 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname));
 app.use(cors());
 
-function uploadFile(dir,name){
+function uploadFile(dest,parentName){
     return new Promise((resolve,reject)=>{
-        fs.readFile(path.join(dir,name),(err,file)=>{
+        fs.readFile(dest,(err,file)=>{
         if(err)
             reject(err);
         else{
             const db=new fileModel;
+            var name=dest.split('/');
+            name=name[name.length-1];
             db.name=name;
             db.data=file;
-            db.path=path.join(dir,name);
+            db.path=dest;
             db.save().then(res=>{
-                resolve({res,dir});
+                resolve({res,parentName});
             }).catch(err=>{reject(err)});
             }
         })
@@ -42,23 +44,28 @@ function saveToDataBase(data){
         data.map(async(i)=>{
             i.content.map(async(j)=>{
                 try{
-                    const stat=fs.lstatSync(path.join(i.folder,j));
-                    if(stat.isFile()){
-                        promises.push(uploadFile(i.folder,j));
+                    const stat=fs.lstatSync(j);
+                    if(stat.isDirectory()){
+                        var name=j.split('/');
+                        name=name[name.length-1];
+                        contentObj.push({name:name,path:j,isFile:0,filename:'',parentName:i.folder});
+                        
                     }
-                    else
-                        contentObj.push({name:j,path:path.join(i.folder,j),isFile:0,filename:'',parentName:i.folder});
+                    else{
+                        promises.push(uploadFile(j,i.folder));
+                    }
                 }catch(err){
                     console.log(err);
                 }
             })
         })
+        resolve(contentObj);
         try{
         const l=await Promise.all(promises);
         l.map(i=>{
-            contentObj.push({name:i.res.name,path:i.res.path,isFile:1,filename:i.res._id,parentName:i.dir})
+            contentObj.push({name:i.res.name,path:i.res.path,isFile:1,filename:i.res._id,parentName:i.parentName})
         })
-        db.name='VirtulFolder';
+        db.name=data[0].folder;
         db.Contents=contentObj;
         db.save().then(res=>{
             resolve(res);
@@ -72,11 +79,12 @@ function saveToDataBase(data){
 
 app.get("/",async(req,res)=>{
     const forked=cp.fork('./heavy.js');
-    forked.send('');
+    forked.send('node_modules');
     forked.on("message",async(data)=>{
         try{
+            // res.send(data);
             const result=await saveToDataBase(data);
-            res.send("ok");
+            res.send(result);
         }catch(err){
             res.send(err);
         }
@@ -84,7 +92,7 @@ app.get("/",async(req,res)=>{
 });
 
 app.get('/get',(req,res)=>{
-    folderModel.findById({_id:"5dda44ea5efe013ba2bf4f3f"}).then(result=>[
+    folderModel.find({}).then(result=>[
         res.status(200).json(result)
     ]).catch(err=>{res.status(400).json(err);})
 })
@@ -93,4 +101,11 @@ app.get('/get',(req,res)=>{
 app.listen(3002||process.env.PORT);
 
 
-
+// function abhi(){
+// const fs=require('fs');
+// try{
+// const d=fs.lstatSync('node_modules/.bin/is-ci');
+// console.log(d.isFile());
+// }catch(err){console.log(err)};
+// }
+// abhi();

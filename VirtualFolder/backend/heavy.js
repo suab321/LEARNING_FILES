@@ -15,9 +15,12 @@ function getFiles(dest) {
             dir.splice(0, 1);
             try {
                 const data = fs.readdirSync(path.join(__dirname, ele));
-                result.push({ folder: ele, content: data });
-                for (var i = 0; i < data.length; i++)
+                var dirList=[];
+                for (var i = 0; i < data.length; i++){
                     dir.push(path.join(ele, data[i]));
+                    dirList.push(path.join(ele,data[i]));
+                }
+                result.push({folder:ele,content:dirList});
             } catch (error) { }
         }
         resolve(result);
